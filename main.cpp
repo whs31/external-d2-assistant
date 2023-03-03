@@ -4,8 +4,17 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    Overlay w;
-    w.show();
-    return a.exec();
+    QApplication application(argc, argv);
+    Overlay overlay;
+
+    overlay.setAttribute(Qt::WA_NoSystemBackground, true);
+    overlay.setAttribute(Qt::WA_TranslucentBackground, true);
+    overlay.setAttribute(Qt::WA_TransparentForMouseEvents, true);
+
+    overlay.setWindowFlags(Qt::FramelessWindowHint);
+    overlay.setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+
+    overlay.showFullScreen();
+
+    return application.exec();
 }

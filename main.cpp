@@ -1,28 +1,25 @@
-#include "overlay.h"
-#include "menu.h"
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
 
-#include <QApplication>
+
 
 int main(int argc, char *argv[])
 {
-    QApplication application(argc, argv);
-    Overlay overlay;
+    #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    #endif
+    QGuiApplication app(argc, argv);
 
-    overlay.setAttribute(Qt::WA_NoSystemBackground, true);
-    overlay.setAttribute(Qt::WA_TranslucentBackground, true);
-    overlay.setAttribute(Qt::WA_TransparentForMouseEvents, true);
-    overlay.setWindowFlags(Qt::FramelessWindowHint);
-    overlay.setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+    QQmlApplicationEngine engine;
+    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+        &app, [url](QObject *obj, const QUrl &objUrl) {
+            if (!obj && url == objUrl)
+                QCoreApplication::exit(-1);
+        }, Qt::QueuedConnection);
+    engine.load(url);
 
-    overlay.showFullScreen();
 
-    Menu menu;
-    menu.setAttribute(Qt::WA_TransparentForMouseEvents, false);
-    menu.setAttribute(Qt::WA_NoSystemBackground, true);
-    menu.setAttribute(Qt::WA_TranslucentBackground, true);
-    menu.setWindowFlags(Qt::FramelessWindowHint);
-    menu.setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
-    menu.show();
 
-    return application.exec();
+    return app.exec();
 }

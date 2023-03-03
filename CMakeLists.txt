@@ -6,7 +6,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20) # урааа 20-й стандарт))
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
@@ -17,6 +17,7 @@ set(PROJECT_SOURCES
         overlay.cpp
         overlay.h
         overlay.ui
+        menu.h menu.cpp menu.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

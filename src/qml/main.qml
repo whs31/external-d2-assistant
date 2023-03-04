@@ -9,7 +9,7 @@ Window { id: overlayArea;
     flags: Qt.WA_NoSystemBackground | Qt.WA_TranslucentBackground |
            Qt.FramelessWindowHint   | Qt.WindowStaysOnTopHint     |
            Qt.WA_NoBackground       | Qt.WindowTransparentForInput;
-    Component.onCompleted: showMaximized();
+    Component.onCompleted: showFullScreen();
     color: "#00000000"
 
 

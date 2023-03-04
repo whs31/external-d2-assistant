@@ -15,6 +15,11 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick)
 set(PROJECT_SOURCES
         main.cpp
         src/qml/qml.qrc
+
+        src/memory/loop.h               src/memory/loop.cpp
+        src/memory/memory.h             src/memory/memory.cpp
+        src/memory/memoryread.h         src/memory/memoryread.cpp
+        src/memory/offset.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

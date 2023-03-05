@@ -18,7 +18,6 @@ set(PROJECT_SOURCES
 
         src/memory/loop.h               src/memory/loop.cpp
         src/memory/memory.h             src/memory/memory.cpp
-        src/memory/memoryread.h         src/memory/memoryread.cpp
         src/memory/offset.h
 )
 

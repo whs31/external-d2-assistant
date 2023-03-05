@@ -1,14 +1,14 @@
 #pragma once
+#include <windows.h>
 
-#include <QObject>
-
-class Memory : public QObject
+class Memory
 {
-    Q_OBJECT
-public:
-    explicit Memory(QObject *parent = nullptr);
 
-signals:
+public:
+    Memory() = default;
+
+    static DWORD getProcessID(const char *procname);
+    static uintptr_t GetModuleBaseAddress(DWORD procId, const wchar_t* modName);
 
 };
 

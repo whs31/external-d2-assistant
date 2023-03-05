@@ -1,9 +1,7 @@
 #include "loop.h"
-#include <QDebug>
+#include "memory.h"
 
-#include <vector>
-#include <Windows.h>
-#include "memoryread.h"
+#include <QDebug>
 
 Loop::Loop(QObject *parent)
     : QObject{parent}
@@ -15,16 +13,9 @@ Loop::Loop(QObject *parent)
     timer->start();
 }
 
-
-struct Modules
-{
-    uintptr_t clientModule;
-    uintptr_t serverModule;
-} modules;
-
 void Loop::tick()
 {
-    DWORD processId = getProcessID("dota2.exe");
+    DWORD processId = Memory::getProcessID("dota2.exe");
 
     HANDLE hProcess = 0;
     hProcess = OpenProcess(PROCESS_ALL_ACCESS, false, processId);
@@ -33,8 +24,8 @@ void Loop::tick()
     uintptr_t hp_bar_offset = 0x2984F6A03D4;
 
     bool _try = ReadProcessMemory(hProcess, (BYTE*)hp_bar_offset, &currentMana, sizeof(float), nullptr);
-    //if(not _try)
-        //qDebug() << GetLastError();
+    if(not _try)
+        qCritical() << GetLastError();
 
-    qInfo() << "Current mana of the hero: " << currentMana;
+    qInfo() << "Current mana of the hero: " << currentMana << "PID: " << processId;
 }

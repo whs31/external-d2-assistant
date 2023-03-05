@@ -28,7 +28,7 @@ void Loop::tick()
     qDebug() << processId;
 
     HANDLE hProcess = 0;
-    hProcess = OpenProcess(PROCESS_ALL_ACCESS, NULL, processId);
+    hProcess = OpenProcess(PROCESS_ALL_ACCESS, false, 10220); //processID возвращает некорректное значение
 
     modules.clientModule = GetModuleBaseAddress(processId, L"client.dll");
     //modules.serverModule = GetModuleBaseAddress(processId, L"server.dll");
@@ -44,14 +44,14 @@ void Loop::tick()
     //uintptr_t currentManaAddress = FindDMAAddy(hProcess, heroPointer, currentManaOffsets);
 
     float currentMana = 0;
-    uintptr_t templar_assasin_mana_offset = 0x21429A64478;
+    uintptr_t hp_bar_offset = 0x2984F6A03D4;
 
     //actual loop part
 
         //ReadProcessMemory(hProcess, (BYTE*)currentManaAddress, &currentMana, sizeof(currentMana), nullptr);
-        bool _try = ReadProcessMemory(hProcess, (BYTE*)templar_assasin_mana_offset, &currentMana, sizeof(float), nullptr);
-        if(not _try)
-            qDebug() << GetLastError();
+        bool _try = ReadProcessMemory(hProcess, (BYTE*)hp_bar_offset, &currentMana, sizeof(float), nullptr);
+        //if(not _try)
+            //qDebug() << GetLastError();
 
         qInfo() << "Current mana of the hero: " << currentMana;
 }

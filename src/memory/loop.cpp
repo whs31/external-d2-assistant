@@ -25,27 +25,33 @@ struct Modules
 void Loop::tick()
 {
     DWORD processId = GetProcId(L"dota2.exe");
+    qDebug() << processId;
 
     HANDLE hProcess = 0;
     hProcess = OpenProcess(PROCESS_ALL_ACCESS, NULL, processId);
 
     modules.clientModule = GetModuleBaseAddress(processId, L"client.dll");
-    modules.serverModule = GetModuleBaseAddress(processId, L"server.dll");
+    //modules.serverModule = GetModuleBaseAddress(processId, L"server.dll");
 
-    qDebug() << "Found clientModule => 0x" << modules.clientModule;
-    qDebug() << "Found serverModule => 0x" << modules.serverModule;
+    //qDebug() << "Found clientModule => 0x" << modules.clientModule;
+    //qDebug() << "Found serverModule => 0x" << modules.serverModule;
 
-    uintptr_t heroPointer = modules.serverModule + 0x024F5EE8;
+    //uintptr_t heroPointer = modules.serverModule + 0x024F5EE8;
 
-    qDebug() << "Found hero pointer => 0x" << heroPointer;
+    //qDebug() << "Found hero pointer => 0x" << heroPointer;
 
-    std::vector<unsigned int> currentManaOffsets = {0x0, 0x1C0, 0x18, 0x658};
-    uintptr_t currentManaAddress = FindDMAAddy(hProcess, heroPointer, currentManaOffsets);
+    //std::vector<unsigned int> currentManaOffsets = {0x0, 0x1C0, 0x18, 0x658};
+    //uintptr_t currentManaAddress = FindDMAAddy(hProcess, heroPointer, currentManaOffsets);
 
     float currentMana = 0;
+    uintptr_t templar_assasin_mana_offset = 0x21429A64478;
 
     //actual loop part
 
-        ReadProcessMemory(hProcess, (BYTE*)currentManaAddress, &currentMana, sizeof(currentMana), nullptr);
-        qInfo() << "Current mana of the hero: %.1f\r" << currentMana;
+        //ReadProcessMemory(hProcess, (BYTE*)currentManaAddress, &currentMana, sizeof(currentMana), nullptr);
+        bool _try = ReadProcessMemory(hProcess, (BYTE*)templar_assasin_mana_offset, &currentMana, sizeof(float), nullptr);
+        if(not _try)
+            qDebug() << GetLastError();
+
+        qInfo() << "Current mana of the hero: " << currentMana;
 }

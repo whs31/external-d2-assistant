@@ -1,29 +1,36 @@
 #include "memoryread.h"
 
-DWORD GetProcId(const wchar_t* procName)
+DWORD getProcessID(const char *procname)
 {
-    DWORD procId = 0;
-    HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-    if (hSnap != INVALID_HANDLE_VALUE)
-    {
-        PROCESSENTRY32 procEntry;
-        procEntry.dwSize = sizeof(procEntry);
+    HANDLE hSnapshot;
+    PROCESSENTRY32 pe;
+    int pid = 0;
+    BOOL hResult;
 
-        if (Process32First(hSnap, &procEntry))
-        {
-            do
-            {
-                if (!_wcsicmp((wchar_t*)procEntry.szExeFile, procName))
-                {
-                    procId = procEntry.th32ProcessID;
-                    break;
-                }
-            } while (Process32Next(hSnap, &procEntry));
+    // snapshot of all processes in the system
+    hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+    if (INVALID_HANDLE_VALUE == hSnapshot) return 0;
 
+    // initializing size: needed for using Process32First
+    pe.dwSize = sizeof(PROCESSENTRY32);
+
+    // info about first process encountered in a system snapshot
+    hResult = Process32First(hSnapshot, &pe);
+
+    // retrieve information about the processes
+    // and exit if unsuccessful
+    while (hResult) {
+        // if we find the process: return process ID
+        if (strcmp(procname, pe.szExeFile) == 0) {
+            pid = pe.th32ProcessID;
+            break;
         }
+        hResult = Process32Next(hSnapshot, &pe);
     }
-    CloseHandle(hSnap);
-    return procId;
+
+    // closes an open handle (CreateToolhelp32Snapshot)
+    CloseHandle(hSnapshot);
+    return pid;
 }
 
 uintptr_t GetModuleBaseAddress(DWORD procId, const wchar_t* modName)

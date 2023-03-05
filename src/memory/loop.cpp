@@ -8,17 +8,18 @@ Loop::Loop(QObject *parent)
 {
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Loop::tick);
+    // @TODO: loop for process scan and etc ( 1 Hz, 5 Hz )
 
-    timer->setInterval(200);
+    // дота работает на частоте 40 Гц. Нет смысла ставить большую частоту,
+    // так как значения между тиками будут интерполированы
+    timer->setInterval(25);
     timer->start();
 }
 
 void Loop::tick()
 {
     DWORD processId = Memory::getProcessID("dota2.exe");
-
-    HANDLE hProcess = 0;
-    hProcess = OpenProcess(PROCESS_ALL_ACCESS, false, processId);
+    HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, false, processId);
 
     float currentMana = 0;
     uintptr_t hp_bar_offset = 0x2984F6A03D4;

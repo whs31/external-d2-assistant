@@ -15,101 +15,96 @@ Window { id: overlayArea;
 
     Window { id: inputArea;
         // по сути ширина и высота этой херни определяет размер области, на которую нельзя кликнуть мышкой.
-        // мб ее можно динамически менять)
-        width: 400
-        height: 100
-        x: 0;
-        y: 0; // это относительно верхнего левого
-        visible: true
+        // можно динамически менять размер области для клика, так что 0 проблем с оверлеем/меню
+        width: 25;
+        height: 16;
+        x: 16;
+        y: 16; // относительно верхнего левого
+        visible: true;
         flags: Qt.WA_NoSystemBackground | Qt.WA_TranslucentBackground |
                Qt.FramelessWindowHint   | Qt.WindowStaysOnTopHint     |
                Qt.WA_NoBackground;
-        color: "#10FF0000"
+        color: "#10FF0000";
         Component.onCompleted: show();
         Button
         {
-            width: 150;
-            height: 50;
+            width: 25;
+            height: 16;
             anchors.left: parent.left;
             anchors.verticalCenter: parent.verticalCenter;
-            text: "выйти!"
+            text: "X"
             onClicked: Qt.quit();
         }
-        Button
-        {
-            width: 150;
-            height: 50;
-            anchors.right: parent.right;
-            anchors.verticalCenter: parent.verticalCenter;
-            text: "изменить размер!"
-            onClicked: inputArea.width = 250; // можно динамически менять размер области для клика, так что 0 проблем с оверлеем/меню
-        }
     }
 
     Rectangle {
-        color: "#676700";
-        width: 200;
-        height: 50;
+        color: "#DEDEDE";
+        width: 3;
+        height: 20;
         anchors.centerIn: parent;
-        Text {
+        Rectangle {
+            color: "#DEDEDE";
+            width: 20;
+            height: 3;
             anchors.centerIn: parent;
-            color: "white";
-            text: "I'm center!";
-            font.pixelSize: 25;
         }
     }
 
 
     Rectangle {
-        color: "#676700";
-        width: 200;
-        height: 50;
+        color: "#DEDEDE";
+        width: 3;
+        height: 20;
         anchors.left: parent.left;
         anchors.bottom: parent.bottom;
-        Text {
-            anchors.centerIn: parent;
-            color: "white";
-            text: "I'm bottom left!";
-            font.pixelSize: 25;
+        Rectangle {
+            color: "#DEDEDE";
+            width: 20;
+            height: 3;
+            anchors.left: parent.left;
+            anchors.bottom: parent.bottom;
         }
     }
     Rectangle {
-        color: "#676700";
-        width: 200;
-        height: 50;
+        color: "#DEDEDE";
+        width: 3;
+        height: 20;
         anchors.right: parent.right;
         anchors.bottom: parent.bottom;
-        Text {
-            anchors.centerIn: parent;
-            color: "white";
-            text: "I'm bottom right!";
-            font.pixelSize: 25;
+        Rectangle {
+            color: "#DEDEDE";
+            width: 20;
+            height: 3;
+            anchors.right: parent.right;
+            anchors.bottom: parent.bottom;
         }
     }
     Rectangle {
-        color: "#676700";
-        width: 200;
-        height: 50;
+        color: "#DEDEDE";
+        width: 3;
+        height: 20;
         anchors.right: parent.right;
         anchors.top: parent.top;
-        Text {
-            anchors.centerIn: parent;
-            color: "white";
-            text: "I'm top right!";
-            font.pixelSize: 25;
+        Rectangle {
+            color: "#DEDEDE";
+            width: 20;
+            height: 3;
+            anchors.right: parent.right;
+            anchors.top: parent.top;
         }
     }
     Rectangle {
-        color: "#676700";
-        width: 200;
-        height: 50;
+        color: "#DEDEDE";
+        width: 3;
+        height: 20;
         anchors.left: parent.left;
         anchors.top: parent.top;
-        Text {
-            anchors.centerIn: parent;
-            color: "white";
-            text: "I'm top left!";
-            font.pixelSize: 25;
+        Rectangle {
+            color: "#DEDEDE";
+            width: 20;
+            height: 3;
+            anchors.left: parent.left;
+            anchors.top: parent.top;
         }
     }
 }

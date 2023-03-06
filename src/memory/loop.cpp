@@ -1,4 +1,6 @@
 #include "loop.h"
+
+#include <windows.h>
 #include "memory.h"
 
 #include <QDebug>
@@ -14,19 +16,12 @@ Loop::Loop(QObject *parent)
     // так как значения между тиками будут интерполированы
     timer->setInterval(25);
     timer->start();
+
+    Memory::linkToProcess("dota2.exe");
 }
 
 void Loop::tick()
 {
-    DWORD processId = Memory::getProcessID("dota2.exe");
-    HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, false, processId);
-
-    float currentMana = 0;
-    uintptr_t hp_bar_offset = 0x2984F6A03D4;
-
-    bool _try = ReadProcessMemory(hProcess, (BYTE*)hp_bar_offset, &currentMana, sizeof(float), nullptr);
-    if(not _try)
-        qCritical() << GetLastError();
-
-    qInfo() << "Current mana of the hero: " << currentMana << "PID: " << processId;
+    uintptr offset = 0x275BBA60C14; // это временный оффсет для дебага, настоящие нужно искать
+    qInfo() << Memory::read<float>(offset);
 }

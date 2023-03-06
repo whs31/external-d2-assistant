@@ -1,7 +1,22 @@
 #include "memory.h"
-#include <TlHelp32.h>
 
-DWORD Memory::getProcessID(const char *procname)
+#include <TlHelp32.h>
+#include <QDebug>
+
+unsigned long Memory::processID = 0;
+void* Memory::handle = nullptr;
+
+void Memory::linkToProcess(const char* name)
+{
+    processID = Memory::getProcessID(name);
+    handle = OpenProcess(PROCESS_ALL_ACCESS, false, processID);
+    if(processID == 0)
+        qCritical() << "[MEMORY] Process not found";
+    else
+        qInfo() << "[MEMORY] Linked to process with ID: " << processID << ", HANDLE: " << handle;
+}
+
+dword Memory::getProcessID(const char *procname)
 {
     HANDLE hSnapshot;
     PROCESSENTRY32 pe;
@@ -34,7 +49,7 @@ DWORD Memory::getProcessID(const char *procname)
     return pid;
 }
 
-uintptr_t Memory::GetModuleBaseAddress(DWORD procId, const wchar_t* modName)
+uintptr Memory::GetModuleBaseAddress(dword procId, const wchar_t* modName)
 {
     uintptr_t modBaseAddr = 0;
     HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, procId);

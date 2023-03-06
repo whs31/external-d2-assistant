@@ -21,7 +21,7 @@ public:
     static char* signatureScan(char* pattern, char* mask, char* begin, char* end, HANDLE* hproc);
 
     static dword getProcessID(const char *procname);
-    static uintptr GetModuleBaseAddress(dword procId, const wchar_t* modName);
+    static uintptr getModuleBaseAddress(dword procId, const char*  modName);
 
 public:
     static unsigned long processID;

@@ -23,5 +23,5 @@ Loop::Loop(QObject *parent)
 void Loop::tick()
 {
     uintptr offset = 0x275BBA60C14; // это временный оффсет для дебага, настоящие нужно искать
-    qInfo() << Memory::read<float>(offset);
+    //qInfo() << Memory::read<float>(offset);
 }

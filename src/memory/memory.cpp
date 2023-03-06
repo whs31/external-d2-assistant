@@ -1,7 +1,9 @@
 #include "memory.h"
+#include "offsets/offsets.h"
 
 #include <TlHelp32.h>
 #include <QDebug>
+
 
 unsigned long Memory::processID = 0;
 void* Memory::handle = nullptr;
@@ -11,9 +13,16 @@ void Memory::linkToProcess(const char* name)
     processID = Memory::getProcessID(name);
     handle = OpenProcess(PROCESS_ALL_ACCESS, false, processID);
     if(processID == 0)
-        qCritical() << "[MEMORY] Process not found";
+        qCritical() << "[MEMORY] Process not found. Is process launched?";
     else
-        qInfo() << "[MEMORY] Linked to process with ID: " << processID << ", HANDLE: " << handle;
+        qInfo().nospace() << "[MEMORY] Linked to process with ID: " << processID << ", HANDLE: " << handle;
+
+    Offsets::base.clientDll = Memory::getModuleBaseAddress(processID, "client.dll");
+    Offsets::base.serverDll = Memory::getModuleBaseAddress(processID, "server.dll");
+    if(Offsets::base.clientDll * Offsets::base.serverDll != 0)
+        qDebug().nospace() << "[MEMORY] Entry points found. " << Qt::hex << "client.dll: 0x" << Offsets::base.clientDll << ", server.dll: 0x" << Offsets::base.serverDll << Qt::dec;
+    else
+        qCritical() << "[MEMORY] Entry point not found.";
 }
 
 dword Memory::getProcessID(const char *procname)
@@ -23,7 +32,7 @@ dword Memory::getProcessID(const char *procname)
     int pid = 0;
     BOOL hResult;
 
-    // snapshot of all processes in the system
+    // snapshot of all processes in the  system
     hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
     if (INVALID_HANDLE_VALUE == hSnapshot) return 0;
 
@@ -49,7 +58,7 @@ dword Memory::getProcessID(const char *procname)
     return pid;
 }
 
-uintptr Memory::GetModuleBaseAddress(dword procId, const wchar_t* modName)
+uintptr Memory::getModuleBaseAddress(dword procId, const char*  modName)
 {
     uintptr_t modBaseAddr = 0;
     HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, procId);
@@ -57,14 +66,11 @@ uintptr Memory::GetModuleBaseAddress(dword procId, const wchar_t* modName)
     {
         MODULEENTRY32 modEntry;
         modEntry.dwSize = sizeof(modEntry);
-        if (Module32First(hSnap, &modEntry))
-        {
-            do
-            {
-                if (!_wcsicmp((wchar_t*)modEntry.szModule, modName))
-                {
-                    modBaseAddr = (uintptr_t)modEntry.modBaseAddr;
-                    break;
+        if (Module32First(hSnap, &modEntry)) {
+            do {
+                if (!strcmp(modEntry.szModule, modName)) {
+                    CloseHandle(hSnap);
+                    return (uintptr_t)modEntry.modBaseAddr;
                 }
             } while (Module32Next(hSnap, &modEntry));
         }

@@ -18,7 +18,7 @@ set(PROJECT_SOURCES
 
         src/memory/loop.h               src/memory/loop.cpp
         src/memory/memory.h             src/memory/memory.cpp
-        src/memory/offset.h
+        src/memory/offsets/offsets.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

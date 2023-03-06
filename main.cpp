@@ -1,5 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QDebug>
 
 #include "src/memory/loop.h"
 
@@ -9,6 +10,19 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     #endif
     QGuiApplication app(argc, argv);
+
+    #ifdef __linux__
+        qSetMessagePattern("[%{time process}] "
+                        "%{if-debug}\033[01;38;05;15m%{endif}"
+                        "%{if-info}\033[01;38;05;146m%{endif}"
+                        "%{if-warning}\033[1;33m%{endif}"
+                        "%{if-critical}\033[1;31m%{endif}"
+                        "%{if-fatal}F%{endif}"
+                        "%{message}\033[0m");
+    #elif _WIN32
+        qSetMessagePattern("[%{time process}] %{message}");
+    #endif
+
 
     Loop loop;
 

@@ -18,12 +18,17 @@ public:
     template <typename T>
     static bool write(uintptr address, T value);
 
+    static char* signatureScan(char* pattern, char* mask, char* begin, char* end, HANDLE* hproc);
+
     static dword getProcessID(const char *procname);
     static uintptr GetModuleBaseAddress(dword procId, const wchar_t* modName);
 
 public:
     static unsigned long processID;
     static void* handle;
+
+private:
+    static char* signatureScanInternal(char* pattern, char* mask, char* begin, unsigned int size);
 };
 
 template<typename T>

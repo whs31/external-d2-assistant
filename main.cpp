@@ -1,8 +1,44 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QDebug>
+#include <qqml.h>
 
 #include "src/memory/loop.h"
+#include "src/gui/debugconsole.h"
+
+QScopedPointer<DebugConsole> console;
+bool _init_ = false;
+
+void consoleHandler(QtMsgType type, const QMessageLogContext&, const QString& msg)
+{
+    QString txt;
+    int msgt = 0;
+    switch (type) {
+    case QtDebugMsg:
+        txt = QString("%1").arg(msg);
+        msgt = 0;
+        break;
+    case QtWarningMsg:
+        txt = QString("%1").arg(msg);
+        msgt = 2;
+        break;
+    case QtInfoMsg:
+        txt = QString("%1").arg(msg);
+        msgt = 1;
+        break;
+    case QtCriticalMsg:
+        txt = QString("%1").arg(msg);
+        msgt = 3;
+        break;
+    case QtFatalMsg:
+        txt = QString("%1").arg(msg);
+        msgt = 4;
+        break;
+    }
+
+    if(_init_)
+        console->append(txt);
+}
 
 int main(int argc, char *argv[])
 {
@@ -23,6 +59,10 @@ int main(int argc, char *argv[])
         qSetMessagePattern("[%{time process}] %{message}");
     #endif
 
+    console.reset(new DebugConsole);
+    _init_ = true;
+    qmlRegisterSingletonInstance<DebugConsole>("DebugConsoleImpl", 1, 0, "Impl", console.get());
+    qInstallMessageHandler(consoleHandler);
 
     Loop loop;
 
@@ -35,7 +75,7 @@ int main(int argc, char *argv[])
         }, Qt::QueuedConnection);
     engine.load(url);
 
-
+    loop.start();
 
     return app.exec();
 }

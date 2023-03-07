@@ -15,8 +15,12 @@ Loop::Loop(QObject *parent)
     // дота работает на частоте 40 Гц. Нет смысла ставить большую частоту,
     // так как значения между тиками будут интерполированы
     timer->setInterval(25);
-    timer->start();
 
+}
+
+void Loop::start()
+{
+    timer->start();
     Memory::linkToProcess("dota2.exe");
 }
 

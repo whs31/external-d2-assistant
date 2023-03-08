@@ -16,6 +16,7 @@ set(PROJECT_SOURCES
         main.cpp
         src/qml/qml.qrc
         fonts/fonts.qrc
+        resources/resources.qrc
 
         src/memory/loop.h               src/memory/loop.cpp
         src/memory/memory.h             src/memory/memory.cpp

@@ -56,6 +56,7 @@ Window { id: control;
         ScrollView { id: scrollView;
             anchors.fill: parent;
             anchors.topMargin: 23;
+            anchors.bottomMargin: 23;
             ScrollBar.vertical.policy: ScrollBar.AlwaysOn;
             TextArea { id: textArea;
                 color: "#ECEFF4";
@@ -68,7 +69,34 @@ Window { id: control;
                 font.family: monoFont.name;
                 font.pixelSize: 13;
                 wrapMode: Text.WordWrap;
-
+            }
+        }
+        Rectangle
+        {
+            height: 23;
+            radius: 7;
+            anchors.bottom: parent.bottom;
+            anchors.left: parent.left;
+            anchors.right: parent.right;
+            color: "#3B4252";
+            TextInput
+            {
+                anchors.fill: parent;
+                anchors.leftMargin: 3;
+                color: "#ECEFF4";
+                cursorVisible: true;
+                text: "";
+                verticalAlignment: Text.AlignVCenter;
+                selectByMouse: true;
+                selectedTextColor: "#2E3440";
+                selectionColor: "#B48EAD";
+                font.family: monoFont.name;
+                font.pixelSize: 13;
+                onAccepted:
+                {
+                    console.log("[CONSOLE] Command received: " + text);
+                    text = "";
+                }
             }
         }
     }

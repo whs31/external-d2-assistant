@@ -15,23 +15,23 @@ void consoleHandler(QtMsgType type, const QMessageLogContext&, const QString& ms
     int msgt = 0;
     switch (type) {
     case QtDebugMsg:
-        txt = QString("%1").arg(msg);
+        txt = QString("%1").arg("<font color=\"#dae1e5\">" + msg + "</font>");
         msgt = 0;
         break;
     case QtWarningMsg:
-        txt = QString("%1").arg(msg);
+        txt = QString("%1").arg("<font color=\"#bc9117\">" + msg + "</font>");
         msgt = 2;
         break;
     case QtInfoMsg:
-        txt = QString("%1").arg(msg);
+        txt = QString("%1").arg("<font color=\"#3681A2\">" + msg + "</font>");
         msgt = 1;
         break;
     case QtCriticalMsg:
-        txt = QString("%1").arg(msg);
+        txt = QString("%1").arg("<font color=\"#3681A2\">" + msg + "</font>");
         msgt = 3;
         break;
     case QtFatalMsg:
-        txt = QString("%1").arg(msg);
+        txt = QString("%1").arg("<font color=\"#b16573\">" + msg + "</font>");
         msgt = 4;
         break;
     }

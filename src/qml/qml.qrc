@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>widgets/DebugConsole.qml</file>
+        <file>widgets/ControlPanel.qml</file>
     </qresource>
 </RCC>

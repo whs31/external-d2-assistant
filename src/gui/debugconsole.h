@@ -7,8 +7,8 @@ class DebugConsole : public QObject
     Q_OBJECT
 public:
     explicit DebugConsole(QObject *parent = nullptr);
-    void show();
-    void hide();
+    Q_INVOKABLE void show();
+    Q_INVOKABLE void hide();
     void append(QString text);
     void clear();
 

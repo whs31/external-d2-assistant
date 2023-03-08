@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>TiltNeon.ttf</file>
+        <file>UbuntuMono.ttf</file>
+    </qresource>
+</RCC>

@@ -17,7 +17,7 @@ Window { id: control;
     Component.onCompleted: show();
     property bool console_state: false;
     Rectangle {
-        color: "#232323";
+        color: "#3B4252";
         anchors.fill: parent;
         anchors.bottomMargin: -7;
         radius: 7;

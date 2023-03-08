@@ -16,24 +16,28 @@ Window { id: control;
     color: "#00000000";
     Component.onCompleted: show();
     Rectangle {
-        color: "#232323";
+        color: "#2E3440";
         anchors.fill: parent;
+        radius: 13;
+        clip: true;
         Rectangle
         {
-            color: "#363636";
+            radius: 7;
+            color: "#3B4252";
             height: 23;
             anchors.left: parent.left;
             anchors.right: parent.right;
             anchors.top: parent.top;
             Text
             {
-                color: "white";
+                color: "#ECEFF4";
                 text: "CONSOLE";
                 font.bold: true;
                 anchors.verticalCenter: parent.verticalCenter;
                 anchors.left: parent.left;
                 anchors.leftMargin: 5;
-                font.pixelSize: 13;
+                font.pixelSize: 14;
+                font.family: uiFont.name;
             }
         }
 
@@ -54,13 +58,17 @@ Window { id: control;
             anchors.topMargin: 23;
             ScrollBar.vertical.policy: ScrollBar.AlwaysOn;
             TextArea { id: textArea;
-                color: "white";
+                color: "#ECEFF4";
                 text: "[GUI] Console initialized";
                 selectByMouse: true;
                 readOnly: true;
-                selectedTextColor: "white";
-                selectionColor: "#484869";
+                selectedTextColor: "#2E3440";
+                selectionColor: "#B48EAD";
                 textFormat: Text.RichText;
+                font.family: monoFont.name;
+                font.pixelSize: 13;
+                wrapMode: Text.WordWrap;
+
             }
         }
     }

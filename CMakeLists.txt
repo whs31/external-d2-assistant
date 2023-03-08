@@ -15,6 +15,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick)
 set(PROJECT_SOURCES
         main.cpp
         src/qml/qml.qrc
+        fonts/fonts.qrc
 
         src/memory/loop.h               src/memory/loop.cpp
         src/memory/memory.h             src/memory/memory.cpp

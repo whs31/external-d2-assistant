@@ -1,4 +1,5 @@
 #include "debugconsole.h"
+#include <QCoreApplication>
 
 DebugConsole::DebugConsole(QObject *parent)
     : QObject{parent} {}
@@ -22,4 +23,10 @@ void DebugConsole::append(QString text)
 void DebugConsole::clear()
 {
     emit clearSignal();
+}
+
+void DebugConsole::sendCommand(QString command)
+{
+    if(command == COMMANDS[0])
+        QCoreApplication::quit();
 }

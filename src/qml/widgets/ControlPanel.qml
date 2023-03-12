@@ -42,18 +42,5 @@ Window { id: control;
                 }
             }
         }
-        Button
-        {
-            text: "quit";
-            anchors.right: parent.right;
-            anchors.top: parent.top;
-            anchors.margins: 7;
-            width: 70;
-            height: 16;
-            onClicked:
-            {
-                Qt.quit();
-            }
-        }
     }
 }

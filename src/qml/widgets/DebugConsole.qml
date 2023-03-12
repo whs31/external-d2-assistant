@@ -90,6 +90,7 @@ Window { id: control;
             color: "#3B4252";
             TextInput
             {
+                focus: true;
                 anchors.fill: parent;
                 anchors.leftMargin: 3;
                 color: "#ECEFF4";
@@ -104,6 +105,7 @@ Window { id: control;
                 onAccepted:
                 {
                     console.log("[CONSOLE] Command received: " + text);
+                    Impl.sendCommand(text);
                     text = "";
                 }
             }

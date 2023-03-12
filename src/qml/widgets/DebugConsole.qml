@@ -47,7 +47,9 @@ Window { id: control;
             target: Impl;
             function onAppendSignal(text)
             {
-                textArea.append(text);
+                let a = text + "\n" + textArea.text
+                textArea.text = a;
+//                textArea.append(text);
             }
             function onChangeVisibility(state)
             {
@@ -64,7 +66,6 @@ Window { id: control;
                 background: Rectangle{
                     color:"darkslategray"
                 }
-
                 text: "[GUI] Console initialized";
                 selectByMouse: true;
                 readOnly: true;

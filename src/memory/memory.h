@@ -1,5 +1,6 @@
 #pragma once
 #include <windows.h>
+#include "offsets/offsets.h"
 
 typedef unsigned long long uintptr;
 typedef unsigned long dword;
@@ -26,7 +27,7 @@ public:
 public:
     static unsigned long processID;
     static void* handle;
-
+    static Offsets offsets;
 private:
     static char* signatureScanInternal(char* pattern, char* mask, char* begin, unsigned int size);
 };

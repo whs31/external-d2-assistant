@@ -4,6 +4,7 @@
 
 #include <TlHelp32.h>
 #include <QDebug>
+#include <QtGlobal>
 
 
 unsigned long Memory::processID = 0;
@@ -48,7 +49,11 @@ dword Memory::getProcessID(const char *procname)
     // and exit if unsuccessful
     while (hResult) {
         // if we find the process: return process ID
+        #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         if (strstr(procname, pe.szExeFile)) {
+        #elif QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
+        if (QString(modName) == QString::fromWCharArray(modEntry.szModule)) {
+        #endif
             pid = pe.th32ProcessID;
             break;
         }
@@ -70,7 +75,12 @@ uintptr Memory::getModuleBaseAddress(dword procId, const char*  modName)
         modEntry.dwSize = sizeof(modEntry);
         if (Module32First(hSnap, &modEntry)) {
             do {
+                #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                 if (strstr(modName, modEntry.szModule)) {
+                #elif QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
+                if (QString(procname) == QString::fromWCharArray(pe.szExeFile)) {
+                #endif
+
                     CloseHandle(hSnap);
                     return (uintptr_t)modEntry.modBaseAddr;
                 }

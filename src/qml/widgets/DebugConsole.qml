@@ -47,9 +47,7 @@ Window { id: control;
             target: Impl;
             function onAppendSignal(text)
             {
-                let a = text + "\n" + textArea.text
-                textArea.text = a;
-//                textArea.append(text);
+                textArea.append(text);
             }
             function onChangeVisibility(state)
             {
@@ -78,7 +76,7 @@ Window { id: control;
                 function append(strAdd)
                 {
                     textArea.text = textArea.text + strAdd;
-                    textArea.cursorPosition = textArea.length-1;
+                    textArea.cursorPosition = textArea.length - 1;
                 }
             }
         }

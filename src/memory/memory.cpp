@@ -1,5 +1,6 @@
 #include "memory.h"
-#include "offsets/offsets.h"
+
+
 
 #include <TlHelp32.h>
 #include <QDebug>
@@ -7,6 +8,7 @@
 
 unsigned long Memory::processID = 0;
 void* Memory::handle = nullptr;
+Offsets Memory::offsets = Offsets();
 
 void Memory::linkToProcess(const char* name)
 {
@@ -17,10 +19,10 @@ void Memory::linkToProcess(const char* name)
     else
         qInfo().nospace() << "[MEMORY] Linked to process with ID: " << processID << ", HANDLE: " << handle;
 
-    Offsets::base.clientDll = Memory::getModuleBaseAddress(processID, "client.dll");
-    Offsets::base.serverDll = Memory::getModuleBaseAddress(processID, "server.dll");
-    if(Offsets::base.clientDll * Offsets::base.serverDll != 0)
-        qDebug().nospace() << "[MEMORY] Entry points found. " << Qt::hex << "client.dll: 0x" << Offsets::base.clientDll << ", server.dll: 0x" << Offsets::base.serverDll << Qt::dec;
+    offsets.base.clientDll = Memory::getModuleBaseAddress(processID, "client.dll");
+    offsets.base.serverDll = Memory::getModuleBaseAddress(processID, "server.dll");
+    if(offsets.base.clientDll * offsets.base.serverDll != 0)
+        qDebug().nospace() << "[MEMORY] Entry points found. " << Qt::hex << "client.dll: 0x" << offsets.base.clientDll << ", server.dll: 0x" << offsets.base.serverDll << Qt::dec;
     else
         qCritical() << "[MEMORY] Entry point not found.";
 }

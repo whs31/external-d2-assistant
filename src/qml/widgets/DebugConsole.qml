@@ -62,7 +62,7 @@ Window { id: control;
             TextArea { id: textArea;
                 color: "#ECEFF4";
                 background: Rectangle{
-                    color:"darkslategray"
+                    color:"#2e3440";
                 }
 
                 text: "[GUI] Console initialized";
@@ -74,6 +74,11 @@ Window { id: control;
                 font.family: monoFont.name;
                 font.pixelSize: 13;
                 wrapMode: Text.WordWrap;
+                function append(strAdd)
+                {
+                    textArea.text = textArea.text + strAdd;
+                    textArea.cursorPosition = textArea.length-1;
+                }
             }
         }
         Rectangle

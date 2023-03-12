@@ -46,7 +46,7 @@ dword Memory::getProcessID(const char *procname)
     // and exit if unsuccessful
     while (hResult) {
         // if we find the process: return process ID
-        if (strcmp(procname, pe.szExeFile) == 0) {
+        if (QString(procname) == QString::fromWCharArray(pe.szExeFile)) {
             pid = pe.th32ProcessID;
             break;
         }
@@ -68,7 +68,7 @@ uintptr Memory::getModuleBaseAddress(dword procId, const char*  modName)
         modEntry.dwSize = sizeof(modEntry);
         if (Module32First(hSnap, &modEntry)) {
             do {
-                if (!strcmp(modEntry.szModule, modName)) {
+                if (QString(modName) == QString::fromWCharArray(modEntry.szModule)) {
                     CloseHandle(hSnap);
                     return (uintptr_t)modEntry.modBaseAddr;
                 }

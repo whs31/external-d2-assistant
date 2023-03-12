@@ -27,8 +27,8 @@ void Loop::start()
 
 void Loop::tick()
 {
-    //uintptr offset = 0x19B4EF70A9C; // это временный оффсет для дебага, настоящие нужно искать
-    uintptr offset = (uintptr_t)0x300905a4d + (uintptr_t)0x43604A0 + (uintptr_t)0x8 * (uintptr_t)0x84 + (uintptr_t)0xa9c;
+    uintptr offset = 0x7ffef8fc6db0; // это временный оффсет для дебага, настоящие нужно искать
+//    uintptr offset = (uintptr_t)0x300905a4d + (uintptr_t)0x43604A0 + (uintptr_t)0x8 * (uintptr_t)0x84 + (uintptr_t)0xa9c;
     qWarning() << Qt::hex << offset;
     qInfo() << Memory::read<float>(offset);
 }

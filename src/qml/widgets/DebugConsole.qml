@@ -17,6 +17,7 @@ Window { id: control;
     Component.onCompleted: show();
     Rectangle {
         color: "#2E3440";
+
         anchors.fill: parent;
         radius: 13;
         clip: true;
@@ -44,11 +45,11 @@ Window { id: control;
         Connections
         {
             target: Impl;
-            onAppendSignal:
+            function onAppendSignal(text)
             {
                 textArea.append(text);
             }
-            onChangeVisibility:
+            function onChangeVisibility(state)
             {
                 control.visible = state;
             }
@@ -60,6 +61,10 @@ Window { id: control;
             ScrollBar.vertical.policy: ScrollBar.AlwaysOn;
             TextArea { id: textArea;
                 color: "#ECEFF4";
+                background: Rectangle{
+                    color:"darkslategray"
+                }
+
                 text: "[GUI] Console initialized";
                 selectByMouse: true;
                 readOnly: true;

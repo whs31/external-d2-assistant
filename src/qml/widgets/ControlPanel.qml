@@ -52,7 +52,7 @@ Window { id: control;
             height: 16;
             onClicked:
             {
-                Qt.quit(0);
+                Qt.quit();
             }
         }
     }

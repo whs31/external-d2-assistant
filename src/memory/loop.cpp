@@ -2,6 +2,7 @@
 
 #include <windows.h>
 #include "memory.h"
+//#include "offsets/offsets.h"
 
 #include <QDebug>
 
@@ -14,7 +15,7 @@ Loop::Loop(QObject *parent)
 
     // дота работает на частоте 40 Гц. Нет смысла ставить большую частоту,
     // так как значения между тиками будут интерполированы
-    timer->setInterval(25);
+    timer->setInterval(250);
 
 }
 
@@ -26,6 +27,8 @@ void Loop::start()
 
 void Loop::tick()
 {
-    uintptr offset = 0x275BBA60C14; // это временный оффсет для дебага, настоящие нужно искать
-    //qInfo() << Memory::read<float>(offset);
+    //uintptr offset = 0x19B4EF70A9C; // это временный оффсет для дебага, настоящие нужно искать
+    uintptr offset = (uintptr_t)0x300905a4d + (uintptr_t)0x43604A0 + (uintptr_t)0x8 * (uintptr_t)0x84 + (uintptr_t)0xa9c;
+    qWarning() << Qt::hex << offset;
+    qInfo() << Memory::read<float>(offset);
 }

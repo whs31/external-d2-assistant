@@ -4,13 +4,12 @@
 
 namespace Memory
 {
-    namespace base
+    namespace Base
     {
-        uint32_t processID = 0;
-        void* processHandle = nullptr;
-
-        uintptr_t clientDll = 0;
-        uintptr_t serverDll = 0;
-    } /// namespace base;
+        inline uint32_t processID = 0;
+        inline void* processHandle = nullptr;
+        inline uintptr_t clientDll = 0;
+        inline uintptr_t serverDll = 0;
+    } /// namespace Base;
 } /// namespace Memory;
 

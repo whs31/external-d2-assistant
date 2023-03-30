@@ -1,6 +1,5 @@
 #pragma once
 
-#include <QtGlobal>
 #include <cstdint>
 
 // мб тут нужно враппер для экстернала писать. я не особо разбирался если честно)
@@ -14,22 +13,6 @@ class CExternalFunction
 
         CExternalFunction(void* ptr);
 
-        #ifdef Q_OS_LINUX
-
-        template <typename ...T>
-        void* operator()(T... t)
-        {
-            return (void*)((uintptr_t(T...))m_ptr)(t...);
-        }
-
-        template <typename V, typename ...T>
-        V exec(T...t)
-        {
-            return ((V(T...))m_ptr)(t...);
-        }
-
-        #else
-
         template <typename ...T>
         void* __fastcall operator()(T... t)
         {
@@ -41,8 +24,6 @@ class CExternalFunction
         {
             return ((V(__fastcall*)(T...))m_ptr)(t...);
         }
-
-        #endif
 
         void* get() const { return m_ptr; }
 };

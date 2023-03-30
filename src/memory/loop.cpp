@@ -1,11 +1,10 @@
 #include "loop.h"
 #include "memory.h"
-#include <QDebug>
+#include "../sdk/classfinder.hpp"
 
-#ifdef Q_OS_LINUX
-#else
+#include <QDebug>
 #include <windows.h>
-#endif
+
 
 Loop::Loop(QObject *parent)
     : QObject{parent}
@@ -23,8 +22,9 @@ Loop::Loop(QObject *parent)
 void Loop::start()
 {
     timer->start();
-    //Memory::linkToProcess("dota2.exe");
-
+    Memory::linkToProcess("dota2.exe");
+    Memory::ClassFinder finder;
+    finder.find();
 }
 
 void Loop::tick()

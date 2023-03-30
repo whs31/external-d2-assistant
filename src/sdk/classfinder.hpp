@@ -22,7 +22,7 @@ namespace Memory
             int returnCode = 0;
             void* result = create(interfaceName, &returnCode);
 
-            int count_vm = CountVMs(result);
+            int count_vm = Memory::countVM(result);
 
             if(vmCount != -1 and count_vm != vmCount)
                 qWarning() << "[CLASSFINDER] Vm table mismatch detected.";

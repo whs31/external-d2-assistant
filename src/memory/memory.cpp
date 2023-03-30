@@ -1,25 +1,22 @@
 #include "memory.h"
-#include "offsets/offsets.h"
 
-#ifdef Q_OS_LINUX
-#else
 #include <TlHelp32.h>
 #include <QDebug>
 #include <QtGlobal>
 
 void Memory::linkToProcess(const char* name)
 {
-    Memory::base::processID = Memory::getProcessID(name);
-    Memory::base::processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, Memory::base::processID);
-    if(not Memory::processID)
+    Memory::Base::processID = Memory::getProcessID(name);
+    Memory::Base::processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, Memory::Base::processID);
+    if(not Memory::Base::processID)
         qCritical() << "[MEMORY] Process not found. Is process launched?";
     else
-        qInfo().nospace() << "[MEMORY] Linked to process with ID: " << Memory::base::processID << ", HANDLE: " << Memory::base::processHandle;
+        qInfo().nospace() << "[MEMORY] Linked to process with ID: " << Memory::Base::processID << ", HANDLE: " << Memory::Base::processHandle;
 
-    Memory::base::clientDll = Memory::getModuleBaseAddress(Memory::base::processID, "client.dll");
-    Memory::base::serverDll = Memory::getModuleBaseAddress(Memory::base::processID, "server.dll");
-    if(Memory::base::clientDll * Memory::base::serverDll)
-        qDebug().nospace() << "[MEMORY] Entry points found. " << Qt::hex << "client.dll: 0x" << Memory::base::clientDll << ", server.dll: 0x" << Memory::base::serverDll << Qt::dec;
+    Memory::Base::clientDll = Memory::getModuleBaseAddress(Memory::Base::processID, "client.dll");
+    Memory::Base::serverDll = Memory::getModuleBaseAddress(Memory::Base::processID, "server.dll");
+    if(Memory::Base::clientDll * Memory::Base::serverDll)
+        qDebug().nospace() << "[MEMORY] Entry points found. " << Qt::hex << "client.dll: 0x" << Memory::Base::clientDll << ", server.dll: 0x" << Memory::Base::serverDll << Qt::dec;
     else
         qCritical() << "[MEMORY] Entry point not found.";
 }
@@ -89,6 +86,35 @@ uintptr_t Memory::getModuleBaseAddress(uint32_t procId, const char* modName)
 
 CExternalFunction Memory::exportFunction(const char* moduleName, const char* exportName)
 {
+    // это нихера не работает вне процесса)))
+    // https://stackoverflow.com/questions/26395243/getmodulehandle-for-a-dll-in-another-process
+    // а может и работает. непонятно)
     return CExternalFunction((void*)GetProcAddress(GetModuleHandleA(moduleName), exportName));
 }
-#endif
+
+uint32_t Memory::countVM(void* _interface)
+{
+    auto** vmt = reinterpret_cast<uintptr_t**>(_interface);
+
+    uint32_t method_count = 0;
+
+    while(vmt and (*vmt)[method_count] and Memory::isPointerValidForRead((*vmt)[method_count]))
+        method_count++;
+
+    return method_count;
+}
+
+bool Memory::isPointerValidForRead(uintptr_t ptr)
+{
+    if(not ptr)
+        return false;
+
+    MEMORY_BASIC_INFORMATION mbi { 0 };
+    if(not VirtualQuery((void*)ptr, &mbi, sizeof(MEMORY_BASIC_INFORMATION)))
+        return false;
+
+    if(mbi.State == MEM_COMMIT and not (mbi.Protect & PAGE_NOACCESS))
+        return true;
+
+    return false;
+}

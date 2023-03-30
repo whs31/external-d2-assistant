@@ -17,7 +17,13 @@ class CVirtualClass
         template <typename T>
         T getMemberPtr(ptrdiff_t offset);
 
-        CExternalFunction getExternalFunction(size_t index);
+        CExternalFunction getExternalFunction(size_t index)
+        {
+            uintptr_t vtable_ptr = *((uintptr_t*)(this));
+            uintptr_t entry_ptr = vtable_ptr + sizeof(uintptr_t) * index;
+
+            return CExternalFunction(*(uintptr_t*)entry_ptr);
+        }
 
         template<uint32_t I, typename R = void*, typename ...T>
         R callExternalFunction(T...t) { return getExternalFunction(I).exec<R>(this, t...); }
@@ -36,10 +42,3 @@ T CVirtualClass::getMemberPtr(ptrdiff_t offset)
     return (T*)((uintptr_t)this + offset);
 }
 
-inline CExternalFunction CVirtualClass::getExternalFunction(size_t index)
-{
-    uintptr_t vtable = *((uintptr_t*)(this));
-    uintptr_t entry = vtable + sizeof(uintptr_t) * index;
-
-    return CExternalFunction(*(uintptr_t*)entry);
-}

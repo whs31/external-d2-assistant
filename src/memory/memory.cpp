@@ -86,4 +86,9 @@ uintptr_t Memory::getModuleBaseAddress(uint32_t procId, const char* modName)
     CloseHandle(hSnap);
     return modBaseAddr;
 }
+
+CExternalFunction Memory::exportFunction(const char* moduleName, const char* exportName)
+{
+    return CExternalFunction((void*)GetProcAddress(GetModuleHandleA(moduleName), exportName));
+}
 #endif

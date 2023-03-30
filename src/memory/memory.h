@@ -5,6 +5,7 @@
 #ifdef Q_OS_LINUX
 #else
 #include <windows.h>
+#include "../sdk/classes/cexternalfunction.hpp"
 
 namespace Memory {
     void linkToProcess(const char* process_name);
@@ -31,6 +32,8 @@ namespace Memory {
     {
         return WriteProcessMemory(handle, (LPVOID)address, &value, sizeof(T), NULL);
     }
+
+    CExternalFunction exportFunction(const char* moduleName, const char* exportName);
 } /// namespace Memory;
 
 #endif

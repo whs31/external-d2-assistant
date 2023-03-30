@@ -13,16 +13,35 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Quick)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick)
 
 set(PROJECT_SOURCES
-        main.cpp
-        src/qml/qml.qrc
-        fonts/fonts.qrc
-        resources/resources.qrc
+   main.cpp
+   src/qml/qml.qrc
+   fonts/fonts.qrc
+   resources/resources.qrc
 
-        src/memory/loop.h               src/memory/loop.cpp
-        src/memory/memory.h             src/memory/memory.cpp
-        src/memory/offsets/offsets.h
+   # MEMORY
+   src/memory/loop.h               src/memory/loop.cpp
+   src/memory/memory.h             src/memory/memory.cpp
+   src/memory/address.hpp
 
-        src/gui/debugconsole.h          src/gui/debugconsole.cpp
+	# OFFSETS
+	src/memory/offsets/offsets.h
+
+   # GUI
+   src/gui/debugconsole.h          src/gui/debugconsole.cpp
+
+   # SDK
+   src/sdk/macro.hpp
+   src/sdk/classfinder.hpp		src/sdk/classfinder.cpp
+
+	# DOTA CLASSES
+	src/sdk/classes/cvirtualclass.hpp
+	src/sdk/classes/cexternalfunction.hpp
+
+		# ENTITY
+		src/sdk/classes/entity/cbaseentity.hpp
+		src/sdk/classes/entity/centityidentity.hpp
+		src/sdk/classes/entity/cabstractentitysystem.hpp
+		src/sdk/classes/entity/cgameentitysystem.hpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

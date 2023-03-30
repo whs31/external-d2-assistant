@@ -1,10 +1,11 @@
 #include "loop.h"
 #include "memory.h"
-#include "../dota/basenpc.h"
-#include "../tools/utility.h"
-
-#include <windows.h>
 #include <QDebug>
+
+#ifdef Q_OS_LINUX
+#else
+#include <windows.h>
+#endif
 
 Loop::Loop(QObject *parent)
     : QObject{parent}
@@ -22,26 +23,8 @@ Loop::Loop(QObject *parent)
 void Loop::start()
 {
     timer->start();
-    Memory::linkToProcess("dota2.exe");
+    //Memory::linkToProcess("dota2.exe");
 
-    // удалить
-    uintptr entityListPtr = Memory::read<uintptr>(Memory::offsets.base.clientDll + 0x43604a0);
-    int i = 1;
-    uintptr entityPtr = Memory::read<uintptr>(entityListPtr + 0x8 * i);
-    while(entityPtr != NULL)
-    {
-        uintptr entityPtr = Memory::read<uintptr>(entityListPtr + 0x8 * i);
-        BaseNPC npc = Memory::read<BaseNPC>(entityPtr);
-        i++;
-        if(npc.heroID > 0 and npc.heroID <= 138)
-            qInfo() << npc << ", Hero Name: " << Utility::getHeroNameByID(npc.heroID);
-        if(i > 32768)
-        {
-            qCritical() << "Out of bounds";
-            break;
-        }
-    }
-    //
 }
 
 void Loop::tick()

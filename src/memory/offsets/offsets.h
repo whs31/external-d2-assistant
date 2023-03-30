@@ -1,13 +1,16 @@
 #pragma once
 
-struct Offsets
+#include <cstdint>
+
+namespace Memory
 {
-    Offsets() = default;
-    struct Base
+    namespace base
     {
-        unsigned long long clientDll = 0;
-        unsigned long long serverDll = 0;
-    };
-    Base base;
-};
+        uint32_t processID = 0;
+        void* processHandle = nullptr;
+
+        uintptr_t clientDll = 0;
+        uintptr_t serverDll = 0;
+    } /// namespace base;
+} /// namespace Memory;
 

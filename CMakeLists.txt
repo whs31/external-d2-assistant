@@ -23,10 +23,6 @@ set(PROJECT_SOURCES
         src/memory/offsets/offsets.h
 
         src/gui/debugconsole.h          src/gui/debugconsole.cpp
-
-        src/dota/basenpc.h
-
-        src/tools/utility.h             src/tools/utility.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

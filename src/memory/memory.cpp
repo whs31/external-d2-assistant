@@ -89,6 +89,9 @@ CExternalFunction Memory::exportFunction(const char* moduleName, const char* exp
     // это нихера не работает вне процесса)))
     // https://stackoverflow.com/questions/26395243/getmodulehandle-for-a-dll-in-another-process
     // а может и работает. непонятно)
+
+    // https://www.codeproject.com/Tips/139349/Getting-the-address-of-a-function-in-a-DLL-loaded
+    // https://stackoverflow.com/questions/8447801/getting-a-module-handle-from-other-process/8447829#8447829
     return CExternalFunction((void*)GetProcAddress(GetModuleHandleA(moduleName), exportName));
 }
 

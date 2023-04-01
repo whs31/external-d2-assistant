@@ -45,7 +45,7 @@ uint32_t Memory::getProcessID(const char *procname)
         #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         if (strstr(procname, pe.szExeFile)) {
         #elif QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
-        if (QString(modName) == QString::fromWCharArray(modEntry.szModule)) {
+        if (QString(procname) == QString::fromWCharArray(pe.szExeFile)) {
         #endif
             pid = pe.th32ProcessID;
             break;
@@ -71,9 +71,8 @@ uintptr_t Memory::getModuleBaseAddress(uint32_t procId, const char* modName)
                 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                 if (strstr(modName, modEntry.szModule)) {
                 #elif QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
-                if (QString(procname) == QString::fromWCharArray(pe.szExeFile)) {
+                if (QString(modName) == QString::fromWCharArray(modEntry.szModule)) {
                 #endif
-
                     CloseHandle(hSnap);
                     return (uintptr_t)modEntry.modBaseAddr;
                 }

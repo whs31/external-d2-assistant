@@ -10,13 +10,17 @@ class CExternalFunction
 
     public:
         CExternalFunction(uintptr_t ptr);
-
         CExternalFunction(void* ptr);
 
         template <typename ...T>
         void* __fastcall operator()(T... t)
         {
             return (void*)((uintptr_t(__fastcall*)(T...))m_ptr)(t...);
+        }
+
+        void* __fastcall callWithCharPointerArg(const char* _ptr)
+        {
+            return (void*)((uintptr_t(__fastcall*)(const char*))m_ptr);
         }
 
         template <typename V, typename ...T>
@@ -35,4 +39,6 @@ inline CExternalFunction::CExternalFunction(uintptr_t ptr)
 inline CExternalFunction::CExternalFunction(void* ptr)
     : m_ptr(ptr)
 {}
+
+
 

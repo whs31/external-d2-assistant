@@ -20,12 +20,12 @@ namespace Memory
         {
             CExternalFunction create = Memory::exportFunction(moduleName, "CreateInterface");
             int returnCode = 0;
-            void* result = create(interfaceName, &returnCode);
+            void* result = create.callWithCharPointerArg(interfaceName);
 
-            int count_vm = Memory::countVM(result);
+            //int count_vm = Memory::countVM(result);
 
-            if(vmCount != -1 and count_vm != vmCount)
-                qWarning() << "[CLASSFINDER] Vm table mismatch detected.";
+            //if(vmCount != -1 and count_vm != vmCount)
+            //    qWarning() << "[CLASSFINDER] Vm table mismatch detected.";
             return reinterpret_cast<T*>(result);
         }
 

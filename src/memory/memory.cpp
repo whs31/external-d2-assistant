@@ -86,14 +86,12 @@ uintptr_t Memory::getModuleBaseAddress(uint32_t procId, const char* modName)
 
 CExternalFunction Memory::exportFunction(const char* moduleName, const char* exportName)
 {
-    // это нихера не работает вне процесса)))
-    // https://stackoverflow.com/questions/26395243/getmodulehandle-for-a-dll-in-another-process
-    // а может и работает. непонятно)
-
-    // https://www.codeproject.com/Tips/139349/Getting-the-address-of-a-function-in-a-DLL-loaded
-    // https://stackoverflow.com/questions/8447801/getting-a-module-handle-from-other-process/8447829#8447829
-    qDebug() << "log: " << CExternalFunction((void*)WinAPIExtended::getExternalProcAddress(Memory::Base::processHandle, WinAPIExtended::getExternalModuleHandle(Memory::Base::processHandle, moduleName), exportName)).get();
-    return CExternalFunction((void*)WinAPIExtended::getExternalProcAddress(Memory::Base::processHandle, WinAPIExtended::getExternalModuleHandle(Memory::Base::processHandle, moduleName), exportName));
+    return CExternalFunction((void*)WinAPIExtended::getExternalProcAddress(
+                                Memory::Base::processHandle,
+                                WinAPIExtended::getExternalModuleHandle(
+                                        Memory::Base::processHandle,
+                                        moduleName),
+                                exportName));
 }
 
 uint32_t Memory::countVM(void* _interface)

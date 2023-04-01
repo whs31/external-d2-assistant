@@ -19,8 +19,8 @@ namespace Memory
         inline T* getInterface(const char* moduleName, const char* interfaceName, int vmCount = -1)
         {
             CExternalFunction create = Memory::exportFunction(moduleName, "CreateInterface");
-            int returnCode = 0;
             void* result = create.callWithCharPointerArg(interfaceName);
+            qDebug() << result;
 
             //int count_vm = Memory::countVM(result);
 

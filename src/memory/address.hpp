@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <cstddef>
+#include "memory.h"
 
 namespace Memory {
     class Address
@@ -17,7 +18,7 @@ namespace Memory {
         Address offset(ptrdiff_t offset) { return Address(m_ptr + offset); }
 
         template <typename T = Address>
-        T absoluteAddress(ptrdiff_t addressOffset, size_t opcodeSize) { return T(m_ptr + *(int*)(m_ptr + addressOffset) + opcodeSize); }
+        T absoluteAddress(ptrdiff_t addressOffset, size_t opcodeSize) { return T(m_ptr + Memory::read<int>((int)(m_ptr + addressOffset)) + opcodeSize); }
 
         template <typename T>
         T* as() const { return (T*)m_ptr; }

@@ -3,6 +3,7 @@
 
 #include "cexternalfunction.hpp"
 #include "../macro.hpp"
+#include "../../memory/memory.h"
 
 // мб тут нужно враппер для экстернала писать. я не особо разбирался если честно)
 
@@ -19,10 +20,10 @@ class CVirtualClass
 
         CExternalFunction getExternalFunction(size_t index)
         {
-            uintptr_t vtable_ptr = *((uintptr_t*)(this));
+            uintptr_t vtable_ptr = Memory::read<uintptr_t>(((uintptr_t)this));
             uintptr_t entry_ptr = vtable_ptr + sizeof(uintptr_t) * index;
 
-            return CExternalFunction(*(uintptr_t*)entry_ptr);
+            return CExternalFunction(Memory::read<uintptr_t>((uintptr_t)entry_ptr));
         }
 
         template<uint32_t I, typename R = void*, typename ...T>

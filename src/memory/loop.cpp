@@ -24,7 +24,7 @@ void Loop::start()
     timer->start();
     Memory::linkToProcess("dota2.exe");
     Memory::ClassFinder finder;
-    //finder.find(); // это цепочку вызовов надо отлаживать, ниче не работает)
+    finder.find(); // это цепочку вызовов надо отлаживать, ниче не работает)
 }
 
 void Loop::tick()

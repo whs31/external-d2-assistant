@@ -65,12 +65,6 @@ HMODULE WinAPIExtended::getExternalModuleHandle(HANDLE hProcess, LPCSTR lpModule
         ::GetModuleBaseName(hProcess, ModuleArray[i],
                             ModuleNameBuffer, sizeof(ModuleNameBuffer));
 
-        for (size_t j = 0; ModuleNameBuffer[j] != '\0'; ++i)
-        {
-            if (ModuleNameBuffer[j] >= 'A' && ModuleNameBuffer[j] <= 'Z')
-                ModuleNameBuffer[j] += 0x20;
-        }
-
         if(strstr(ModuleNameBuffer, lpModuleNameCopy) != NULL)
         {
             HMODULE TempReturn = ModuleArray[i];

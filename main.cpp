@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
     console.reset(new DebugConsole);
     _init_ = true;
     qmlRegisterSingletonInstance<DebugConsole>("DebugConsoleImpl", 1, 0, "Impl", console.get());
-    qInstallMessageHandler(consoleHandler);
+    //qInstallMessageHandler(consoleHandler);
 
     Loop loop;
 

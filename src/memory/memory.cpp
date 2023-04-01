@@ -1,5 +1,6 @@
 #include "memory.h"
 
+#include "winapi/winapiwrapper.hpp"
 #include <TlHelp32.h>
 #include <QDebug>
 #include <QtGlobal>
@@ -91,7 +92,8 @@ CExternalFunction Memory::exportFunction(const char* moduleName, const char* exp
 
     // https://www.codeproject.com/Tips/139349/Getting-the-address-of-a-function-in-a-DLL-loaded
     // https://stackoverflow.com/questions/8447801/getting-a-module-handle-from-other-process/8447829#8447829
-    return CExternalFunction((void*)GetProcAddress(GetModuleHandleA(moduleName), exportName));
+    qDebug() << "log: " << CExternalFunction((void*)WinAPIExtended::getExternalProcAddress(Memory::Base::processHandle, WinAPIExtended::getExternalModuleHandle(Memory::Base::processHandle, moduleName), exportName)).get();
+    return CExternalFunction((void*)WinAPIExtended::getExternalProcAddress(Memory::Base::processHandle, WinAPIExtended::getExternalModuleHandle(Memory::Base::processHandle, moduleName), exportName));
 }
 
 uint32_t Memory::countVM(void* _interface)

@@ -9,6 +9,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 20) # урааа 20-й стандарт))
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+find_library(PSAPI Psapi)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Quick)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick)
 
@@ -25,6 +26,9 @@ set(PROJECT_SOURCES
 
 	# OFFSETS
 	src/memory/offsets/offsets.h
+
+        # WIN 32 API EXTENSIONS
+        src/memory/winapi/winapiwrapper.hpp     src/memory/winapi/winapiwrapper.cpp
 
    # GUI
    src/gui/debugconsole.h          src/gui/debugconsole.cpp
@@ -56,7 +60,10 @@ else()
 endif()
 
 target_link_libraries(External
-  PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick)
+  PRIVATE Qt${QT_VERSION_MAJOR}::Core
+  Qt${QT_VERSION_MAJOR}::Quick
+  -lpsapi
+)
 
 set_target_properties(External PROPERTIES
     WIN32_EXECUTABLE TRUE

@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <qqml.h>
 
-#include "src/memory/loop.h"
+#include "src/memory/loop.hxx"
 #include "src/gui/debugconsole.h"
 
 QScopedPointer<DebugConsole> console;

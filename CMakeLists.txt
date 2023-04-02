@@ -20,32 +20,11 @@ set(PROJECT_SOURCES
    resources/resources.qrc
 
    # MEMORY
-   src/memory/loop.h               src/memory/loop.cpp
-   src/memory/memory.h             src/memory/memory.cpp
-   src/memory/address.hpp
-
-	# OFFSETS
-	src/memory/offsets/offsets.h
-
-        # WIN 32 API EXTENSIONS
-        src/memory/winapi/winapiwrapper.hpp     src/memory/winapi/winapiwrapper.cpp
+   src/memory/loop.hxx src/memory/loop.cxx
+   src/memory/memtools.hxx src/memory/memtools.cxx
 
    # GUI
    src/gui/debugconsole.h          src/gui/debugconsole.cpp
-
-   # SDK
-   src/sdk/macro.hpp
-   src/sdk/classfinder.hpp		src/sdk/classfinder.cpp
-
-	# DOTA CLASSES
-	src/sdk/classes/cvirtualclass.hpp
-	src/sdk/classes/cexternalfunction.hpp
-
-		# ENTITY
-		src/sdk/classes/entity/cbaseentity.hpp
-		src/sdk/classes/entity/centityidentity.hpp
-		src/sdk/classes/entity/cabstractentitysystem.hpp
-		src/sdk/classes/entity/cgameentitysystem.hpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

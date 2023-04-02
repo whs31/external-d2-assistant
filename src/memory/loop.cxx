@@ -1,6 +1,5 @@
-#include "loop.h"
-#include "memory.h"
-#include "../sdk/classfinder.hpp"
+#include "loop.hxx"
+#include "memtools.hxx"
 
 #include <QDebug>
 #include <windows.h>
@@ -23,8 +22,6 @@ void Loop::start()
 {
     timer->start();
     Memory::linkToProcess("dota2.exe");
-    Memory::ClassFinder finder;
-    finder.find(); // это цепочку вызовов надо отлаживать, ниче не работает)
 }
 
 void Loop::tick()

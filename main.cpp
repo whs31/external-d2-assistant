@@ -30,6 +30,8 @@ int main(int argc, char *argv[])
 
     QONSOLE_INIT;
 
+    // Launcher -> this -> dota.exe -> inject dll
+
     Loop loop;
 
     QQmlApplicationEngine engine;

@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
         }, Qt::QueuedConnection);
     engine.load(url);
 
-    GameLaucher launcher;
+    Application::GameLaucher launcher;
     launcher.launch();
 
     return app.exec();

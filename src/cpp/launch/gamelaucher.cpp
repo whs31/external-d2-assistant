@@ -5,11 +5,11 @@
 #include <QDebug>
 #include <QProcess>
 
+using namespace Application;
+
 GameLaucher::GameLaucher(QObject *parent)
     : QObject{parent}
-{
-
-}
+{}
 
 void GameLaucher::launch()
 {

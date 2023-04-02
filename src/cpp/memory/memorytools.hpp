@@ -11,9 +11,12 @@ namespace Memory {
         inline void* processHandle = nullptr;
         inline uintptr_t clientDll = 0;
         inline uintptr_t serverDll = 0;
+
         inline QString dotaGameFolder;
         inline QString dotaBinaryFolder;
         inline QString dotaExecutable;
+
+        inline QString internalLib;
     } /// namespace base;
 
     bool linkToProcess(const char* process_name);

@@ -30,6 +30,7 @@ Window { id: control;
             icon: "qrc:/qit/placeholder/sample_info_icon.png";
             basecolor: "#BF616A";
             highlightcolor: "#D08770";
+            tooltiptext: "Exit"
             opaque: true;
             onClicked: Qt.quit();
         }
@@ -43,6 +44,7 @@ Window { id: control;
 
             icon: "qrc:/qit/placeholder/sample_info_icon.png";
             highlightcolor: "#5E81AC";
+            tooltiptext: "Open Console"
             opaque: false;
             onClicked: debugConsole.visible = !debugConsole.visible;
         }

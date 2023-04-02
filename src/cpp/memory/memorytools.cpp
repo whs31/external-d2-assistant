@@ -1,4 +1,4 @@
-#include "memtools.hxx"
+#include "memorytools.hpp"
 
 #include <TlHelp32.h>
 #include <QDebug>

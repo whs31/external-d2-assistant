@@ -14,8 +14,7 @@ Window { id: root;
            Qt.WA_NoBackground       | Qt.WindowTransparentForInput;
     Component.onCompleted: showFullScreen();
     color: "#00000000"
-    FontLoader { id: uiFont; source: "qrc:/TiltNeon.ttf"; }
-    FontLoader { id: monoFont; source: "qrc:/UbuntuMono.ttf"; }
+
 
     Qonsole.DebugConsole { id: debugConsole; }
     Widgets.ControlPanel { id: controlPanel; }

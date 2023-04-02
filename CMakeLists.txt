@@ -12,37 +12,33 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Quick)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick)
 
+include_directories(src/cpp)
+file(GLOB CPP_SOURCES
+    src/cpp/memory/*
+)
+
+
 set(PROJECT_SOURCES
-   main.cpp
-   src/qml/qml.qrc
-   fonts/fonts.qrc
-   resources/resources.qrc
+    main.cpp
+    src/qml/qml.qrc
+    resources/resources.qrc
 
-   # MEMORY
-   src/memory/loop.hxx src/memory/loop.cxx
-   src/memory/memtools.hxx src/memory/memtools.cxx
 
-   # GUI
+    # GUI
 )
 
 add_subdirectory(submodules)
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(External
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
-    )
-else()
-    add_executable(External
-        ${PROJECT_SOURCES}
-    )
-endif()
+add_executable(External
+    ${PROJECT_SOURCES}
+    ${CPP_SOURCES}
+)
 
 target_link_libraries(External
-  PRIVATE Qt${QT_VERSION_MAJOR}::Core
-  Qt${QT_VERSION_MAJOR}::Quick
-  Qonsole
-  Qit
+    PRIVATE Qt${QT_VERSION_MAJOR}::Core
+    Qt${QT_VERSION_MAJOR}::Quick
+    Qonsole
+    Qit
 )
 
 set_target_properties(External PROPERTIES

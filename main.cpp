@@ -5,8 +5,6 @@
 
 #include <Qonsole/debug.hpp>
 
-#include "src/memory/loop.hxx"
-
 QONSOLE_DECLARE;
 
 int main(int argc, char *argv[])
@@ -33,7 +31,6 @@ int main(int argc, char *argv[])
 
     // Launcher -> this -> dota.exe -> inject dll
 
-    Loop loop;
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
@@ -43,8 +40,6 @@ int main(int argc, char *argv[])
                 QCoreApplication::exit(-1);
         }, Qt::QueuedConnection);
     engine.load(url);
-
-    loop.start();
 
     return app.exec();
 }

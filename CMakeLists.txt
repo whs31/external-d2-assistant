@@ -15,6 +15,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick)
 include_directories(src/cpp)
 file(GLOB CPP_SOURCES
     src/cpp/memory/*
+    src/cpp/launch/*
 )
 
 
@@ -22,12 +23,10 @@ set(PROJECT_SOURCES
     main.cpp
     src/qml/qml.qrc
     resources/resources.qrc
-
-
-    # GUI
 )
 
 add_subdirectory(submodules)
+add_subdirectory(dll)
 
 add_executable(External
     ${PROJECT_SOURCES}

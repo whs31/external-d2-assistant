@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QDebug>
 #include <qqml.h>
+#include "launch/gamelaucher.hpp"
 
 #include <Qonsole/debug.hpp>
 
@@ -25,6 +26,9 @@ int main(int argc, char *argv[])
                 QCoreApplication::exit(-1);
         }, Qt::QueuedConnection);
     engine.load(url);
+
+    GameLaucher launcher;
+    launcher.launch();
 
     return app.exec();
 }

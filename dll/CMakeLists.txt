@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(Internal VERSION 0.1 LANGUAGES CXX)
+project(internal VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_CXX_STANDARD 20)
@@ -14,4 +14,6 @@ file(GLOB CPP_SOURCES
     src/*
 )
 
-add_library(Internal SHARED ${CPP_SOURCES})
+add_library(internal SHARED ${CPP_SOURCES})
+
+message(".dll compiled successfully")

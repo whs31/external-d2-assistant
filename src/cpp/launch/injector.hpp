@@ -1,7 +1,4 @@
-
-#ifndef INJECTOR_HPP
-#define INJECTOR_HPP
-
+#pragma once
 
 #include <QObject>
 
@@ -15,5 +12,3 @@ public:
 signals:
 
 };
-
-#endif // INJECTOR_HPP

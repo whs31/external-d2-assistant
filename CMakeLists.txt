@@ -46,4 +46,7 @@ set_target_properties(External PROPERTIES
 
 install(TARGETS External
     BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
+
+message(".exe compiled successfully")

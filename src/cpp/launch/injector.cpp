@@ -1,4 +1,3 @@
-
 #include "injector.hpp"
 
 Injector::Injector(QObject *parent)

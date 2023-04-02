@@ -1,4 +1,5 @@
 #include <Windows.h>
+#include <iostream>
 
 BOOL APIENTRY DllMain(HMODULE hModule,
                       DWORD  ul_reason_for_call,
@@ -12,6 +13,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 //        if (thread)
 //            CloseHandle(thread);
 //        break;
+        std::cout << "dll cout" << std::endl;
     }
     case DLL_THREAD_ATTACH:
     case DLL_THREAD_DETACH:

@@ -1,7 +1,4 @@
-
-#ifndef GAMELAUCHER_H
-#define GAMELAUCHER_H
-
+#pragma once
 
 #include <QObject>
 
@@ -12,8 +9,8 @@ class GameLaucher : public QObject
 public:
     explicit GameLaucher(QObject *parent = nullptr);
 
-signals:
+    void launch();
 
+    signals:
+        void gameLaunched();
 };
-
-#endif // GAMELAUCHER_H

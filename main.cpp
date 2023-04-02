@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <qqml.h>
 
-#include <debug.hpp>
+#include <Qonsole/debug.hpp>
 
 #include "src/memory/loop.hxx"
 
@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
         qSetMessagePattern("[%{time process}] %{message}");
     #endif
 
+    Q_INIT_RESOURCE(ui);
     QONSOLE_INIT;
 
     // Launcher -> this -> dota.exe -> inject dll

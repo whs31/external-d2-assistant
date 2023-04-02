@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
-import DebugConsoleImpl 1.0
+import "qrc:/qit/elements/buttons" as Buttons
 
 Window { id: control;
     // можно динамически менять размер области для клика, так что 0 проблем с оверлеем/меню
@@ -14,24 +14,37 @@ Window { id: control;
            Qt.FramelessWindowHint   | Qt.WindowStaysOnTopHint     |
            Qt.WA_NoBackground;
     color: "#00000000";
-    Component.onCompleted: show();
     Rectangle {
         color: "#3B4252";
         anchors.fill: parent;
         anchors.bottomMargin: -7;
         radius: 7;
-        Button
-        {
-            text: "console";
-            anchors.left: parent.left;
+
+        Buttons.ToolButton { id: cCloseAppDebugButton;
+            anchors.right: parent.right;
+            anchors.rightMargin: 2;
             anchors.top: parent.top;
-            anchors.margins: 7;
-            width: 70;
-            height: 16;
-            onClicked:
-            {
-                debugConsole.visible = !debugConsole.visible;
-            }
+            anchors.topMargin: 2;
+            fixedheight: 20;
+
+            icon: "qrc:/qit/placeholder/sample_info_icon.png";
+            basecolor: "#BF616A";
+            highlightcolor: "#D08770";
+            opaque: true;
+            onClicked: Qt.quit();
+        }
+
+        Buttons.ToolButton { id: cToggleConsoleDebugButton;
+            anchors.right: cCloseAppDebugButton.left;
+            anchors.rightMargin: 2;
+            anchors.top: parent.top;
+            anchors.topMargin: 2;
+            fixedheight: 20;
+
+            icon: "qrc:/qit/placeholder/sample_info_icon.png";
+            highlightcolor: "#5E81AC";
+            opaque: false;
+            onClicked: debugConsole.visible = !debugConsole.visible;
         }
     }
 }

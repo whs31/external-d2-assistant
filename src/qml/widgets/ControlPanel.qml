@@ -15,7 +15,6 @@ Window { id: control;
            Qt.WA_NoBackground;
     color: "#00000000";
     Component.onCompleted: show();
-    property bool console_state: false;
     Rectangle {
         color: "#3B4252";
         anchors.fill: parent;
@@ -31,15 +30,7 @@ Window { id: control;
             height: 16;
             onClicked:
             {
-                if(console_state)
-                {
-                    Impl.hide();
-                    console_state = false;
-                } else
-                {
-                    Impl.show();
-                    console_state = true;
-                }
+                debugConsole.visible = !debugConsole.visible;
             }
         }
     }

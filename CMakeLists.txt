@@ -6,7 +6,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 20) # урааа 20-й стандарт))
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_library(PSAPI Psapi)
@@ -24,8 +24,9 @@ set(PROJECT_SOURCES
    src/memory/memtools.hxx src/memory/memtools.cxx
 
    # GUI
-   src/gui/debugconsole.h          src/gui/debugconsole.cpp
 )
+
+add_subdirectory(submodules)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(External
@@ -42,6 +43,7 @@ target_link_libraries(External
   PRIVATE Qt${QT_VERSION_MAJOR}::Core
   Qt${QT_VERSION_MAJOR}::Quick
   -lpsapi
+  Qonsole
 )
 
 set_target_properties(External PROPERTIES
@@ -51,8 +53,3 @@ set_target_properties(External PROPERTIES
 install(TARGETS External
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
-
-#if(QT_VERSION_MAJOR EQUAL 6)
-#    qt_import_qml_plugins(untitled)
-#    qt_finalize_executable(untitled)
-#endif()

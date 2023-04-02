@@ -3,42 +3,11 @@
 #include <QDebug>
 #include <qqml.h>
 
+#include <debug.hpp>
+
 #include "src/memory/loop.hxx"
-#include "src/gui/debugconsole.h"
 
-QScopedPointer<DebugConsole> console;
-bool _init_ = false;
-
-void consoleHandler(QtMsgType type, const QMessageLogContext&, const QString& msg)
-{
-    QString txt;
-    int msgt = 0;
-    switch (type) {
-    case QtDebugMsg:
-        txt = QString("%1").arg("<font color=\"#ECEFF4\">" + msg + "</font>");
-        msgt = 0;
-        break;
-    case QtWarningMsg:
-        txt = QString("%1").arg("<font color=\"#EBCB8B\">" + msg + "</font>");
-        msgt = 2;
-        break;
-    case QtInfoMsg:
-        txt = QString("%1").arg("<font color=\"#8FBCBB\">" + msg + "</font>");
-        msgt = 1;
-        break;
-    case QtCriticalMsg:
-        txt = QString("%1").arg("<font color=\"#BF616A\">" + msg + "</font>");
-        msgt = 3;
-        break;
-    case QtFatalMsg:
-        txt = QString("%1").arg("<font color=\"#D08770\">" + msg + "</font>");
-        msgt = 4;
-        break;
-    }
-
-    if(_init_)
-        console->append(txt);
-}
+QONSOLE_DECLARE;
 
 int main(int argc, char *argv[])
 {
@@ -59,10 +28,7 @@ int main(int argc, char *argv[])
         qSetMessagePattern("[%{time process}] %{message}");
     #endif
 
-    console.reset(new DebugConsole);
-    _init_ = true;
-    qmlRegisterSingletonInstance<DebugConsole>("DebugConsoleImpl", 1, 0, "Impl", console.get());
-    //qInstallMessageHandler(consoleHandler);
+    QONSOLE_INIT;
 
     Loop loop;
 

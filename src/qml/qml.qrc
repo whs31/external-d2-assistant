@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>widgets/DebugConsole.qml</file>
         <file>widgets/ControlPanel.qml</file>
+        <file>widgets/ConsoleWindow.qml</file>
     </qresource>
 </RCC>

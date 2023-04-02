@@ -3,6 +3,7 @@ import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 
 import "widgets" as Widgets
+import "qrc:/qonsole" as Qonsole;
 
 Window { id: root;
     width: 640
@@ -16,22 +17,8 @@ Window { id: root;
     FontLoader { id: uiFont; source: "qrc:/TiltNeon.ttf"; }
     FontLoader { id: monoFont; source: "qrc:/UbuntuMono.ttf"; }
 
-    Widgets.DebugConsole { id: debugConsole; }
+    Qonsole.DebugConsole { id: debugConsole; }
     Widgets.ControlPanel { id: controlPanel; }
-
-    Rectangle {
-        color: "#DEDEDE";
-        width: 3;
-        height: 20;
-        anchors.centerIn: parent;
-        Rectangle {
-            color: "#DEDEDE";
-            width: 20;
-            height: 3;
-            anchors.centerIn: parent;
-        }
-    }
-
 
     Rectangle {
         color: "#DEDEDE";

@@ -15,7 +15,7 @@ bool Memory::linkToProcess(const char* name)
     Memory::base::processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, Memory::base::processID);
     if(not Memory::base::processID)
     {
-        qCritical() << "[MEMORY] Process not found. Is process launched?";
+        qWarning() << "[MEMORY] Process not found. Trying to launch process manually.";
         return false;
     }
     else

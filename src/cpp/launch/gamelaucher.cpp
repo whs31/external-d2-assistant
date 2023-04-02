@@ -28,8 +28,11 @@ void GameLaucher::launch()
     {
         QProcess::startDetached(Memory::base::dotaExecutable, { "-console" });
         qInfo().noquote() << "[GAMELAUNCHER] Dota 2 launched from absolute path. Passing call stack to injector.";
+        emit launchFinished(false);
         return;
     }
-    qInfo().noquote() << "[GAMELAUNCHER] Dota 2 is already running. Passing call stack to injector.";
+    emit launchFinished(true);
+    qInfo() << "[GAMELAUNCHER] Dota 2 is already running. Passing call stack to injector.";
+    qWarning() << "[GAMELAUNCHER] Some functions (like d+ patching) will not work correctly.";
 }
 

@@ -1,8 +1,9 @@
+#include "src/entry.hpp"
+
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QDebug>
 #include <qqml.h>
-#include "launch/gamelaucher.hpp"
 
 #include <Qonsole/debug.hpp>
 
@@ -27,8 +28,7 @@ int main(int argc, char *argv[])
         }, Qt::QueuedConnection);
     engine.load(url);
 
-    Application::GameLaucher launcher;
-    launcher.launch();
+    Entry entryPoint;
 
     return app.exec();
 }

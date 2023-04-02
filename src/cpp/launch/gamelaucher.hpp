@@ -15,11 +15,13 @@ namespace Application
 
         //! @brief Запускает игру, если она еще не запущена, и сообщает о
         //!        результате в инжектор через сигнал.
+        //! @sa    Функция посылает сигнал launchFinished() по завершении, который
+        //!        содержит флаг результата.
         void launch();
 
         signals:
             //! @brief Сигнал, сообщающий о запуске/нахождении запущенного процесса
             //!        игрового клиента.
-            void gameLaunched();
+            void launchFinished(bool result);
     };
 } /// namespace Application;

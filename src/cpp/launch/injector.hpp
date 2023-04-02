@@ -7,7 +7,7 @@
 //!            с инициализацией и настройкой ключевых модулей программы.
 namespace Application
 {
-    //! @brief
+    //! @brief Класс для инжекта динамической библиотеки.
     class Injector : public QObject
     {
         Q_OBJECT

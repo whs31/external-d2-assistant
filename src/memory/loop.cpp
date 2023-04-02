@@ -28,9 +28,16 @@ void Loop::start()
 
 void Loop::tick()
 {
-    uintptr entityListPtr = Memory::read<uintptr>(Memory::offsets.base.clientDll + 0x43604a0);
-    uintptr entityPtr = Memory::read<uintptr>(entityListPtr + 0x8 * 0x15);
-    uintptr manaOffsetPtr =  entityPtr + 0xA9C;
+//    uintptr entityListPtr = Memory::read<uintptr>(Memory::offsets.base.clientDll + 0x43604a0);
+//    uintptr entityPtr = Memory::read<uintptr>(entityListPtr + 0x8 * 0x15);
+//    uintptr manaOffsetPtr =  entityPtr + 0xA9C;
+
+//    uintptr entityListPtr = Memory::read<uintptr>(Memory::offsets.base.clientDll + 0x43604a0);
+    uintptr entityListPtr = Memory::read<uintptr>(Memory::offsets.base.clientDll + 0x4360470);
+//    uintptr entityPtr = Memory::read<uintptr>(entityListPtr + 0x8 * (0x4e));
+    uintptr entityPtr = Memory::read<uintptr>(entityListPtr + 0x8 * (0x54c));
+    uintptr manaOffsetPtr =  entityPtr + 0xA9C/* + 0x4*/;
+
     float mana = Memory::read<float>(manaOffsetPtr);
     qWarning() << Qt::hex << manaOffsetPtr;
     qInfo() << mana;

@@ -31,8 +31,9 @@ void GameLaucher::launch()
         emit launchFinished(false);
         return;
     }
-    emit launchFinished(true);
+
     qInfo() << "[GAMELAUNCHER] Dota 2 is already running. Passing call stack to injector.";
     qWarning() << "[GAMELAUNCHER] Some functions (like d+ patching) will not work correctly.";
+    emit launchFinished(true);
 }
 

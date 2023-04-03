@@ -2,26 +2,26 @@
 
 #include <QObject>
 
-//! @namespace Пространство имен для классов и функций, работающих
-//!            с инициализацией и настройкой ключевых модулей программы.
+//! @namespace Namespace for classes and functions, related to key
+//!            architecture and startup modules of application
 namespace Application
 {
-    //! @class Класс для запуска игры и передачи информации в инжектор.
-    class GameLaucher : public QObject
+    //! @class Class, which is responsible for launching game
+class GameLauncher : public QObject
     {
     Q_OBJECT
     public:
-        explicit GameLaucher(QObject *parent = nullptr);
+    explicit GameLauncher(QObject *parent = nullptr);
 
-        //! @brief Запускает игру, если она еще не запущена, и сообщает о
-        //!        результате в инжектор через сигнал.
-        //! @sa    Функция посылает сигнал launchFinished() по завершении, который
-        //!        содержит флаг результата.
+        //! @brief Launches game, if not launched, and emits signal after launch
+        //! @sa    Emits launchFinished() after launching, which contains boolean
+        //!        result of function execution
         void launch();
 
         signals:
-            //! @brief Сигнал, сообщающий о запуске/нахождении запущенного процесса
-            //!        игрового клиента.
+            //! @brief Signal, emitted after launching game
+            //! @param result - equals TRUE if launching is successful,
+            //!        FALSE if game is already launched
             void launchFinished(bool result);
     };
 } /// namespace Application;

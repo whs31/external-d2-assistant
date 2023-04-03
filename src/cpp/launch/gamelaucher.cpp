@@ -7,11 +7,11 @@
 
 using namespace Application;
 
-GameLaucher::GameLaucher(QObject *parent)
+GameLauncher::GameLauncher(QObject *parent)
     : QObject{parent}
 {}
 
-void GameLaucher::launch()
+void GameLauncher::launch()
 {
     bool is_dota_launched = Memory::linkToProcess("dota2.exe");
 
@@ -28,12 +28,12 @@ void GameLaucher::launch()
     {
         QProcess::startDetached(Memory::base::dotaExecutable, { "-console" });
         qInfo().noquote() << "[GAMELAUNCHER] Dota 2 launched from absolute path. Passing call stack to injector.";
-        emit launchFinished(false);
+        emit launchFinished(true);
         return;
     }
 
     qInfo() << "[GAMELAUNCHER] Dota 2 is already running. Passing call stack to injector.";
     qWarning() << "[GAMELAUNCHER] Some functions (like d+ patching) will not work correctly.";
-    emit launchFinished(true);
+    emit launchFinished(false);
 }
 

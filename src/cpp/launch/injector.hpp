@@ -2,30 +2,29 @@
 
 #include <QObject>
 
-
-//! @namespace Пространство имен для классов и функций, работающих
-//!            с инициализацией и настройкой ключевых модулей программы.
+//! @namespace Namespace for classes and functions, related to key
+//!            architecture and startup modules of application
 namespace Application
 {
-    //! @brief Класс для инжекта динамической библиотеки.
+    //! @brief Class for dynamic library injection
     class Injector : public QObject
     {
         Q_OBJECT
         public:
         explicit Injector(QObject *parent = nullptr);
 
-        //! @brief Совершает инжект динамической библиотеки в процесс.
-        //! @param dll_path - абсолютный путь в файловой системе к библиотеке.
-        //! @param pid - ID процесса для инжекта.
-        //! @param time_before_inject_ms - задержка перед инжектом после запуска функции.
-        //!        По умолчанию задержка отсутствует.
-        //! @sa    Функция посылает сигнал injectionFinished() по завершении, который
-        //!        содержит флаг результата.
+        //! @brief Injects dynamic library into process
+        //! @param dll_path - absolute path to .dll file
+        //! @param pid - process ID for injection
+        //! @param time_before_inject_ms - delay in ms before injection
+        //!                                By default delay equals 0
+        //! @sa    Function emits injectionFinished() signal with result
+        //!        boolean flag after injection
         void inject(const QString& dll_path, unsigned long pid, uint64_t time_before_inject_ms = 0);
 
             signals:
-            //! @brief Сигнал, сообщающий o завершении инжекта.
-            //! @param result - возвращает TRUE, если инжект успешен.
+            //! @brief Signal, emitted after injection
+            //! @param result - equals TRUE if injection is successful
             void injectionFinished(bool result);
     };
-}
+} /// namespace Application;

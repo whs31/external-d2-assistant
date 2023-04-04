@@ -13,6 +13,16 @@ GameLauncher::GameLauncher(QObject *parent)
 
 void GameLauncher::launch()
 {
+    bool is_steam_launched = Memory::getProcessID("steam.exe") != 0;
+    if(is_steam_launched)
+        qInfo() << "[GAMELAUNCHER] Steam process found.";
+    else
+    {
+        qCritical() << "[GAMELAUNCHER] Steam process not found. Program will not work correctly without Steam.";
+        qCritical() << "[GAMELAUNCHER] Aborting launch.";
+        return;
+    }
+
     bool is_dota_launched = Memory::linkToProcess("dota2.exe");
 
     QString dota_game_folder_path = QString::fromStdString(Memory::registry::getGamePath());

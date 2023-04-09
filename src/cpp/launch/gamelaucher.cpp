@@ -23,7 +23,7 @@ void GameLauncher::launch()
         return;
     }
 
-    bool is_dota_launched = Memory::linkToProcess("dota2.exe");
+    bool is_dota_launched = Memory::getProcessID("dota2.exe") != 0;
 
     QString dota_game_folder_path = QString::fromStdString(Memory::registry::getGamePath());
     dota_game_folder_path.replace("\\", "/");

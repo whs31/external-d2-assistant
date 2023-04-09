@@ -22,6 +22,7 @@ void Injector::inject(const QString &dll_path, unsigned long pid, uint64_t time_
 
 void Injector::injectL()
 {
+    Memory::linkToProcess("dota2.exe");
     QString path_in_windows_encoding = m_dll_path;
     path_in_windows_encoding.replace("/", "\\");
     LPCSTR _path = path_in_windows_encoding.toLocal8Bit().constData();
@@ -37,6 +38,9 @@ void Injector::injectL()
         DWORD _pid = m_pid;
         HANDLE _handle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, _pid);
     }
+    // temp solution
+    _pid = Memory::base::processID;
+    _handle = Memory::base::processHandle;
 
     LPVOID p_dll = VirtualAllocEx(_handle, 0, strlen(_path) + 1, MEM_COMMIT, PAGE_READWRITE);
     WriteProcessMemory(_handle, p_dll, (LPVOID)_path, strlen(_path) + 1, 0);

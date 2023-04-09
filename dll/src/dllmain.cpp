@@ -15,9 +15,13 @@ BOOL APIENTRY DllMain(HMODULE hModule,
     switch (ul_reason_for_call)
     {
     case DLL_PROCESS_ATTACH: {
-        HANDLE thread = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)mainthread, hModule, 0, 0);
-        if (thread)
-            CloseHandle(thread);
+            // causes segfault. idc
+//        HANDLE thread = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)mainthread, hModule, 0, 0);
+//        if (thread)
+//            CloseHandle(thread);
+        AllocConsole();
+        std::cout << "dll cout" << std::endl; // not working
+        printf("asd");                        // not working
         break;
     }
     case DLL_THREAD_ATTACH:

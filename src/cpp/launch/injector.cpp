@@ -22,7 +22,9 @@ void Injector::inject(const QString &dll_path, unsigned long pid, uint64_t time_
 
 void Injector::injectL()
 {
-    LPCSTR _path = (const char*)m_dll_path.constData();
+    QString path_in_windows_encoding = m_dll_path;
+    path_in_windows_encoding.replace("/", "\\");
+    LPCSTR _path = path_in_windows_encoding.toLocal8Bit().constData();
     DWORD _pid;
     HANDLE _handle;
     if(m_pid == Memory::base::processID)
@@ -41,6 +43,7 @@ void Injector::injectL()
     HANDLE h_LoadThread = CreateRemoteThread(_handle, 0, 0,
                                              (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandleA("Kernel32.dll"), "LoadLibraryA"), p_dll, 0, 0);
     WaitForSingleObject(h_LoadThread, INFINITE);
+    VirtualFreeEx(_handle, p_dll, strlen(_path) + 1 + 1, MEM_RELEASE);
     qInfo().noquote() << "[INJECTOR] Injected dll into" << _pid << ":" << _handle << "with load thread handle" << h_LoadThread;
 }
 

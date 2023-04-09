@@ -13,7 +13,7 @@ Entry::Entry(QObject *parent)
     Memory::base::internalLib = QCoreApplication::applicationDirPath() + "/libinternal.dll";
 
     connect(&launcher, &Application::GameLauncher::launchFinished, this, [this](){
-        injector->inject(Memory::base::internalLib, Memory::base::processID, 2500);
+        injector->inject(Memory::base::internalLib, Memory::base::processID, 15000);
     });
 
     launcher.launch();

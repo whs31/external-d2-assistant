@@ -30,7 +30,7 @@ void GameLauncher::launch()
     Memory::base::dotaGameFolder = dota_game_folder_path;
     qInfo().noquote() << "[GAMELAUNCHER] Found Dota 2 absolute path:" << dota_game_folder_path;
 
-    Memory::base::dotaBinaryFolder = dota_game_folder_path + "/bin/win64";
+    Memory::base::dotaBinaryFolder = dota_game_folder_path + "bin/win64";
     Memory::base::dotaExecutable = Memory::base::dotaBinaryFolder + "/dota2.exe";
     qInfo().noquote() << "[GAMELAUNCHER] Found Dota 2 executable:" << Memory::base::dotaExecutable;
 

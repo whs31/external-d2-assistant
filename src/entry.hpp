@@ -2,13 +2,18 @@
 
 #include <QObject>
 
+namespace Application {
+    class Injector;
+}
 
 class Entry : public QObject
 {
     Q_OBJECT
-public:
-    explicit Entry(QObject *parent = nullptr);
+    Application::Injector* injector;
 
-    signals:
+    public:
+        explicit Entry(QObject *parent = nullptr);
+
+        signals:
 
 };

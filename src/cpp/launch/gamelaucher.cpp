@@ -36,7 +36,7 @@ void GameLauncher::launch()
 
     if(not is_dota_launched)
     {
-        QProcess::startDetached(Memory::base::dotaExecutable, { "-console" });
+        QProcess::startDetached(Memory::base::dotaExecutable, { "-console -novid" });
         qInfo().noquote() << "[GAMELAUNCHER] Dota 2 launched from absolute path. Passing call stack to injector.";
         emit launchFinished(true);
         return;

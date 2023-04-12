@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QObject>
+#define __signal void
 
 //! @namespace Namespace for classes and functions, related to key
 //!            architecture and startup modules of application
@@ -25,10 +26,10 @@ namespace Application
             signals:
                 //! @brief Signal, emitted after injection
                 //! @param result - equals TRUE if injection is successful
-                void injectionFinished(bool result);
+                __signal injectionFinished(bool result);
 
                 //! @brief Signal, emitted when injection starts.
-                void injectionStarted();
+                __signal injectionStarted();
 
             private slots:
                 void injectL();

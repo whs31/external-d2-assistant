@@ -3,6 +3,8 @@
 
 uintptr_t WINAPI mainthread(HMODULE hModule) {
     AllocConsole();
+
+
     std::cout << "dll cout" << std::endl;
     //FreeConsole();
 }
@@ -20,8 +22,12 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 //        if (thread)
 //            CloseHandle(thread);
         AllocConsole();
-        std::cout << "dll cout" << std::endl; // not working
-        printf("asd");                        // not working
+
+        FILE* f;
+        freopen_s(&f, "CONOUT$", "w", stdout);
+
+        std::cout << "[INFO] Console allocated succesfully" << std::endl;
+
         break;
     }
     case DLL_THREAD_ATTACH:

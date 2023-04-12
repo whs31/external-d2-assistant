@@ -34,6 +34,16 @@ void ConsolePrivate::sendCommand(QString command)
 
 void ConsolePrivate::quit()
 {
-    qDebug() << "Shutting down...";
+    qInfo() << "[CONSOLE] Shutting down...";
     QCoreApplication::quit();
+}
+
+void ConsolePrivate::unload()
+{
+    qInfo() << "[CONSOLE] Unloading internal module.";
+}
+
+void ConsolePrivate::load()
+{
+    qInfo() << "[CONSOLE] Loading internal module.";
 }

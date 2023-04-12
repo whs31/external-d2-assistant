@@ -12,7 +12,9 @@ class ConsolePrivate : public QObject
     Console* q_ptr;
 
     QMap<QString, std::function<void()>> command_list = {
-        { "quit", [this](){ quit(); } }
+        { "quit", [this](){ quit(); } },
+        { "unload", [this](){ unload(); } },
+        { "load", [this](){ load(); } }
     };
 
     public:
@@ -26,4 +28,6 @@ class ConsolePrivate : public QObject
 
     private:
         void quit();
+        void unload();
+        void load();
 };

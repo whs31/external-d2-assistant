@@ -141,7 +141,6 @@ Rectangle { id: controlOverlay;
             font.pixelSize: 13;
             onAccepted:
             {
-                console.log("[CONSOLE] Command received: " + text);
                 Impl.sendCommand(text);
                 text = "";
             }

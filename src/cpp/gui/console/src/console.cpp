@@ -29,7 +29,10 @@ ConsolePrivate::ConsolePrivate(Console* parent)
 
 void ConsolePrivate::sendCommand(QString command)
 {
-    command_list[command]();
+    if(command_list.contains(command))
+        command_list[command]();
+    else
+        qWarning() << "[CONSOLE] Unrecognized console command (" << command << ")";
 }
 
 void ConsolePrivate::quit()

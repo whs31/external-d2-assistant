@@ -3,5 +3,8 @@
         <file>main.qml</file>
         <file>widgets/ControlPanel.qml</file>
         <file>widgets/ConsoleWidget.qml</file>
+        <file>ui/buttons/ToolButton.qml</file>
+        <file>ui/buttons/PushButton.qml</file>
+        <file>ui/checkboxes/Checkbox.qml</file>
     </qresource>
 </RCC>

@@ -16,7 +16,6 @@ int main(int argc, char *argv[])
     #endif
     QGuiApplication app(argc, argv);
 
-    Q_INIT_RESOURCE(ui);
     CONSOLE_INIT;
 
     QQmlApplicationEngine engine;

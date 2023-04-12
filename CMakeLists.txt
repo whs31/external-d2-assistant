@@ -27,7 +27,6 @@ set(PROJECT_SOURCES
     resources/resources.qrc
 )
 
-add_subdirectory(submodules)
 add_subdirectory(dll)
 
 add_executable(External
@@ -38,7 +37,6 @@ add_executable(External
 target_link_libraries(External
     PRIVATE Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::Quick
-    Qit
 )
 
 set_target_properties(External PROPERTIES

@@ -3,7 +3,6 @@ import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 
 import "widgets" as Widgets
-import "qrc:/qonsole" as Qonsole;
 
 Window { id: root;
     width: 640
@@ -16,7 +15,7 @@ Window { id: root;
     color: "#00000000"
 
 
-    Qonsole.DebugConsole { id: debugConsole; }
+    Widgets.ConsoleWidget { id: debugConsole; }
     Widgets.ControlPanel { id: controlPanel; }
 
     Rectangle {

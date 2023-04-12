@@ -13,11 +13,11 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Quick)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick)
 
 include_directories(src/cpp)
-file(GLOB CPP_SOURCES
+file(GLOB_RECURSE CPP_SOURCES
     src/cpp/memory/*
     src/cpp/launch/*
+    src/cpp/gui/*
 )
-
 
 set(PROJECT_SOURCES
     main.cpp
@@ -38,7 +38,6 @@ add_executable(External
 target_link_libraries(External
     PRIVATE Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::Quick
-    Qonsole
     Qit
 )
 

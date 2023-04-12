@@ -1,13 +1,13 @@
 #include "src/entry.hpp"
+#include "gui/console/console.hpp"
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QDebug>
 #include <qqml.h>
 
-#include <Qonsole/debug.hpp>
 
-QONSOLE_DECLARE;
+CONSOLE_DECLARE;
 
 int main(int argc, char *argv[])
 {
@@ -17,15 +17,17 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     Q_INIT_RESOURCE(ui);
-    QONSOLE_INIT;
+    CONSOLE_INIT;
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-        &app, [url](QObject *obj, const QUrl &objUrl) {
-            if (!obj && url == objUrl)
-                QCoreApplication::exit(-1);
-        }, Qt::QueuedConnection);
+                     &app, [url](QObject *obj, const QUrl &objUrl)
+                    {
+                        if (!obj && url == objUrl)
+                            QCoreApplication::exit(-1);
+                    }
+                    , Qt::QueuedConnection);
     engine.load(url);
 
     Entry entryPoint;

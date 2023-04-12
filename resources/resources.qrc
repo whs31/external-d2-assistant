@@ -1,2 +1,10 @@
-<!DOCTYPE RCC>
-<RCC version="1.0"/>
+<RCC>
+    <qresource prefix="/">
+        <file>fonts/UbuntuMono.ttf</file>
+        <file>icons/close.png</file>
+        <file>icons/command-line.png</file>
+        <file>icons/cross.png</file>
+        <file>icons/handle.png</file>
+        <file>icons/header.png</file>
+    </qresource>
+</RCC>

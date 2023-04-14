@@ -20,12 +20,12 @@ void InterfaceManager::findInterfaces()
     std::cout << "[INTERFACE MANAGER] Found CGameEntitySystem, " << gameEntitySystem->getHighestEntityIndex() << std::endl;
 
     // это просто тестовая итерация по энтити. ее можно убрать, нужна чисто для отладки
-    CEntityIdentity* start = gameEntitySystem->getIdentity(gameEntitySystem->getHighestEntityIndex());
-    std::cout << "Start: " << start->name() << std::endl;
-    while(start->m_pNext)
-    {
-        start = start->m_pNext;
-        std::cout << start->name() << std::endl;
-    }
+//    CEntityIdentity* start = gameEntitySystem->getIdentity(gameEntitySystem->getHighestEntityIndex());
+//    std::cout << "Start: " << start->name() << std::endl;
+//    while(start->m_pNext)
+//    {
+//        start = start->m_pNext;
+//        std::cout << start->name() << std::endl;
+//    }
 }
 

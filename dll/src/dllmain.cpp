@@ -1,12 +1,18 @@
 #include <Windows.h>
 #include <iostream>
+#include "dota/managers/interfacemanager.h"
 
 uintptr_t WINAPI mainthread(HMODULE hModule) {
     AllocConsole();
 
     FILE* f;
     freopen_s(&f, "CONOUT$", "w", stdout);
-    std::cout << "[INFO] Console allocated succesfully" << std::endl;
+    std::cout << "[STARTUP] Console allocated succesfully" << std::endl;
+
+    Global::InterfaceManager manager;
+    manager.findInterfaces();
+
+    std::cin.get();
 
     return 0;
 }

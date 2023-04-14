@@ -24,7 +24,7 @@ namespace Memory
 
         //! @brief
         template<typename V, typename ...T>
-        V __fastcall Execute(T... t) {
+        V __fastcall execute(T... t) {
             return ((V(__fastcall*)(T...))pointer)(t...);
         }
     };

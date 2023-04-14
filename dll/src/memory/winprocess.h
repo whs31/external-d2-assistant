@@ -3,6 +3,9 @@
 #include <windows.h>
 #include <tlhelp32.h>
 
-DWORD GetProcId(const wchar_t* procname);
-uintptr_t GetModuleBaseAddress(DWORD procId, const wchar_t* modname);
-MODULEENTRY32 GetModule(DWORD dwProcID, const wchar_t* moduleName);
+namespace Memory
+{
+    DWORD getProcessID(const wchar_t* procname); // aka GetProc
+    uintptr_t getModuleBaseAddress(DWORD procId, const wchar_t* modname); // aka GetModuleBaseAddress
+    MODULEENTRY32 getModuleEntry(DWORD dwProcID, const wchar_t* moduleName); // aka GetModule
+} // namespace Memory;

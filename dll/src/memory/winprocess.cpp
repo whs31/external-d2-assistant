@@ -4,7 +4,7 @@
 using std::string;
 using std::wstring;
 
-DWORD GetProcId(const wchar_t* procName)
+DWORD Memory::getProcessID(const wchar_t* procName)
 {
     wstring proc_name(procName);
     DWORD procId = 0;
@@ -33,7 +33,7 @@ DWORD GetProcId(const wchar_t* procName)
     return procId;
 }
 
-uintptr_t GetModuleBaseAddress(DWORD procId, const wchar_t* modName)
+uintptr_t Memory::getModuleBaseAddress(DWORD procId, const wchar_t* modName)
 {
     wstring mod_name(modName);
     uintptr_t modBaseAddr = 0;
@@ -61,7 +61,7 @@ uintptr_t GetModuleBaseAddress(DWORD procId, const wchar_t* modName)
 }
 
 //Get ModuleEntry from module name, using toolhelp32snapshot
-MODULEENTRY32 GetModule(DWORD dwProcID, const wchar_t* moduleName)
+MODULEENTRY32 Memory::getModuleEntry(DWORD dwProcID, const wchar_t* moduleName)
 {
     wstring proc_name(moduleName);
     MODULEENTRY32 modEntry = { 0 };

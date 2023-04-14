@@ -1,145 +1,146 @@
-//#pragma once
-//#include <cstdint>
-//#include "SigScan/patternscan.h"
+#pragma once
+#include <cstdint>
+#include <string>
+#include "patternscanner.h"
+#include "function.h"
 
-//class Address {
-//public:
-//    uintptr_t ptr;
+namespace Memory
+{
+    class Address {
+        public:
+            uintptr_t pointer;
 
-//    Address(uintptr_t ptr) : ptr(ptr) {}
-//    Address(void* ptr) : ptr((uintptr_t)ptr) {}
+            Address(uintptr_t pointer) : pointer(pointer) {}
+            Address(void* pointer) : pointer((uintptr_t)pointer) {}
 
-//    template<typename T>
-//    operator T() const
-//    {
-//        return (T)ptr;
-//    }
+            template<typename T>
+            operator T() const
+            {
+                return (T)pointer;
+            }
 
-//    Address Offset(int offset) {
-//        return Address(ptr + offset);
-//    }
+            Address Offset(int offset) {
+                return Address(pointer + offset);
+            }
 
+            template<typename T = Address>
+            T GetAbsoluteAddress(int address_offset, int sizeof_opcode = -1) const {
+                if (sizeof_opcode == -1)
+                    sizeof_opcode = address_offset + sizeof(uint32_t);
+                return T(pointer + *(int*)(pointer + address_offset) + sizeof_opcode);
+            }
 
-//    template<typename T = Address>
-//    T GetAbsoluteAddress(int addrOffset, int opcodeSize = -1) const {
-//        if (opcodeSize == -1)
-//            opcodeSize = addrOffset + sizeof(uint32_t);
-//        return T(ptr + *(int*)(ptr + addrOffset) + opcodeSize);
-//    }
+            template<typename T>
+            T* As() const {
+                return (T*)pointer;
+            }
+    };
 
-//    template<typename T>
-//    T* As() const {
-//        return (T*)ptr;
-//    }
+    class ScanContext {
+        //Splits IDA pattern into code mask/pattern
+        void parse(const char* combo, std::string& pattern, std::string& mask)
+        {
+            unsigned int patternLen = (strlen(combo) + 1) / 3;
+            int index = 0;
+            for (unsigned int i = 0; i < strlen(combo); i++)
+            {
+                if (combo[i] == ' ')
+                    continue;
+                else if (combo[i] == '?')
+                {
+                    mask += '?';
+                    pattern += '\x00';
+                    i++;
+                }
+                else
+                {
+                    char byte = (char)strtol(&combo[i], 0, 16);
+                    pattern += byte;
+                    mask += 'x';
+                    i += 2;
+                }
+            }
+            //pattern += '\0';
+            //mask = '\0';
+        }
 
-//};
+        public:
 
-//class SigScanContext {
-//    //Splits IDA pattern into code mask/pattern
-//    void ParseCombo(const char* combo, std::string& pattern, std::string& mask)
-//    {
-//        unsigned int patternLen = (strlen(combo) + 1) / 3;
-//        int index = 0;
-//        for (unsigned int i = 0; i < strlen(combo); i++)
-//        {
-//            if (combo[i] == ' ')
-//            {
-//                continue;
-//            }
+        HANDLE procHandle;
+        int pid;
 
-//            else if (combo[i] == '?')
-//            {
-//                mask += '?';
-//                pattern += '\x00';
-//                i += 1;
-//            }
-//            else
-//            {
-//                char byte = (char)strtol(&combo[i], 0, 16);
-//                pattern += byte;
-//                mask += 'x';
-//                i += 2;
-//            }
-//        }
-//        //pattern += '\0';
-//        //mask = '\0';
-//    }
-//public:
-//    HANDLE procHandle;
-//    int pid;
+        ScanContext(HANDLE procHandle, int pid) : procHandle(procHandle), pid(pid) {}
 
-//    SigScanContext(HANDLE procHandle, int pid) : procHandle(procHandle), pid(pid) {
+        Address scan(const std::string& signature, const wchar_t* moduleName) {
+            int maskLength = (signature.length() + 1) / 3 + 1;
+            std::string pattern, mask;
+            pattern.reserve(maskLength);
+            mask.reserve(maskLength);
 
-//    }
+            parse(signature.c_str(), pattern, mask);
 
-//    Address Scan(const std::string& signature, const wchar_t* moduleName) {
-//        int maskLength = (signature.length() + 1) / 3 + 1;
-//        std::string pattern, mask;
-//        pattern.reserve(maskLength);
-//        mask.reserve(maskLength);
+            Address result(patternScanExModule(procHandle, pid, moduleName, pattern.c_str(), mask.c_str()));
+            return result;
+        }
+    };
 
-//        ParseCombo(signature.c_str(), pattern, mask);
+    template <typename T>
+    inline void memcopy(T dst, T src, size_t size) {
+        memcpy((void*)dst, (const void*)src, size);
+    }
 
-//        Address result(PatternScanExModule(procHandle, pid, moduleName, pattern.c_str(), mask.c_str()));
-//        return result;
-//    }
-//};
+    // Returns an exported function, if it's available
+    inline Function exportFunction(const char* dllName, const char* exportName) { // aka GetExport
+        return Function((void*)GetProcAddress(GetModuleHandleA(dllName), exportName));
+    }
 
-//inline void MemCopy(auto dst, auto src, size_t size) {
-//    memcpy((void*)dst, (const void*)src, size);
-//}
+    template<typename T = uintptr_t>
+    inline bool isValidForRead(T p) { // aka IsValidReadPtr
+        if (!p)
+            return false;
+        MEMORY_BASIC_INFORMATION mbi;
+        memset(&mbi, 0, sizeof(mbi));
+        if (!VirtualQuery((void*)p, &mbi, sizeof(mbi)))
+            return false;
+        if (!(mbi.State & MEM_COMMIT))
+            return false;
+        if (!(mbi.Protect & (PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY |
+                             PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY)))
+            return false;
+        if (mbi.Protect & (PAGE_GUARD | PAGE_NOACCESS))
+            return false;
+        return true;
+    }
 
-//// Returns an exported function, if it's available
-//inline Function GetExport(const char* dllName, const char* exportName) {
-//    return Function((void*)GetProcAddress(GetModuleHandleA(dllName), exportName));
-//}
+    template<typename T = uintptr_t>
+    inline bool isValidForWrite(T p) // aka IsValidWritePtr
+    {
+        MEMORY_BASIC_INFORMATION mbi;
+        memset(&mbi, 0, sizeof(mbi));
+        if (!VirtualQuery((void*)p, &mbi, sizeof(mbi)))
+            return false;
+        if (!(mbi.State & MEM_COMMIT))
+            return false;
+        if (!(mbi.Protect & (PAGE_READWRITE | PAGE_WRITECOPY | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY)))
+            return false;
+        if (mbi.Protect & (PAGE_GUARD | PAGE_NOACCESS))
+            return false;
+        return true;
+    }
 
-//template<typename T = uintptr_t>
-//inline bool IsValidReadPtr(T p) {
-//    if (!p)
-//        return false;
-//    MEMORY_BASIC_INFORMATION mbi;
-//    memset(&mbi, 0, sizeof(mbi));
-//    if (!VirtualQuery((void*)p, &mbi, sizeof(mbi)))
-//        return false;
-//    if (!(mbi.State & MEM_COMMIT))
-//        return false;
-//    if (!(mbi.Protect & (PAGE_READONLY | PAGE_READWRITE | PAGE_WRITECOPY |
-//                         PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY)))
-//        return false;
-//    if (mbi.Protect & (PAGE_GUARD | PAGE_NOACCESS))
-//        return false;
-//    return true;
-//}
-
-//template<typename T = uintptr_t>
-//inline bool IsValidWritePtr(T p)
-//{
-//    MEMORY_BASIC_INFORMATION mbi;
-//    memset(&mbi, 0, sizeof(mbi));
-//    if (!VirtualQuery((void*)p, &mbi, sizeof(mbi)))
-//        return false;
-//    if (!(mbi.State & MEM_COMMIT))
-//        return false;
-//    if (!(mbi.Protect & (PAGE_READWRITE | PAGE_WRITECOPY | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY)))
-//        return false;
-//    if (mbi.Protect & (PAGE_GUARD | PAGE_NOACCESS))
-//        return false;
-//    return true;
-//}
-
-//template<typename T = uintptr_t>
-//inline bool IsValidCodePtr(T p)
-//{
-//    MEMORY_BASIC_INFORMATION mbi;
-//    memset(&mbi, 0, sizeof(mbi));
-//    if (!VirtualQuery((void*)p, &mbi, sizeof(mbi)))
-//        return false;
-//    if (!(mbi.State & MEM_COMMIT))
-//        return false;
-//    if (!(mbi.Protect & (PAGE_EXECUTE | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY)))
-//        return false;
-//    if (mbi.Protect & (PAGE_GUARD | PAGE_NOACCESS))
-//        return false;
-//    return true;
-//}
+    template<typename T = uintptr_t>
+    inline bool isValidForCode(T p) // aka IsValidCodePtr
+    {
+        MEMORY_BASIC_INFORMATION mbi;
+        memset(&mbi, 0, sizeof(mbi));
+        if (!VirtualQuery((void*)p, &mbi, sizeof(mbi)))
+            return false;
+        if (!(mbi.State & MEM_COMMIT))
+            return false;
+        if (!(mbi.Protect & (PAGE_EXECUTE | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY)))
+            return false;
+        if (mbi.Protect & (PAGE_GUARD | PAGE_NOACCESS))
+            return false;
+        return true;
+    }
+} // namespace Memory;

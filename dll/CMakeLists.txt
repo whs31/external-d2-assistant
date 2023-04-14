@@ -14,7 +14,11 @@ include_directories(src lib)
 file(GLOB CPP_SOURCES
     src/*
     src/dota/managers/*
+    src/dota/entity/*
+    src/dota/shared/*
+
     src/memory/*
+
     lib/minhook/include/*
     lib/minhook/src/*
 )

@@ -17,7 +17,7 @@ namespace Memory
         if (vmCount != -1 && countedVMs != vmCount) {
             std::cout << "[INTERFACE MANAGER] VM mismatch" << std::endl;
         }
-        std::cout << "[INTERFACE MANAGER] Found " << dllName << " | " << interfaceName << " | " << result << " | " << vmInfo;
+        std::cout << "[INTERFACE MANAGER] Found " << dllName << " | " << interfaceName << " | " << result << " | " << vmInfo << std::endl;
         return reinterpret_cast<T*>(result);
     }
 } // namespace Memory;

@@ -44,7 +44,7 @@ namespace Memory
         }
 
         template<uint32_t index, typename V = void*, typename ...T>
-        V CallVFunc(T... t) {
+        V callVFunc(T... t) {
             return getVirtualFunction(index).execute<V>(this, t...);
         }
     };

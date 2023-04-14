@@ -19,19 +19,19 @@ namespace Memory
                 return (T)pointer;
             }
 
-            Address Offset(int offset) {
+            Address offset(int offset) {
                 return Address(pointer + offset);
             }
 
             template<typename T = Address>
-            T GetAbsoluteAddress(int address_offset, int sizeof_opcode = -1) const {
+            T getAbsoluteAddress(int address_offset, int sizeof_opcode = -1) const {
                 if (sizeof_opcode == -1)
                     sizeof_opcode = address_offset + sizeof(uint32_t);
                 return T(pointer + *(int*)(pointer + address_offset) + sizeof_opcode);
             }
 
             template<typename T>
-            T* As() const {
+            T* as() const {
                 return (T*)pointer;
             }
     };

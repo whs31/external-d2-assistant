@@ -73,5 +73,5 @@ namespace Memory {
         //! @brief Returns dota 2 folder absolute path.
         //! @return Absolute path in file system.
         std::string getGamePath();
-    } /// namespace registry;
-} /// namespace Memory;
+    } // namespace registry;
+} // namespace Memory;

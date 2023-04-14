@@ -6,8 +6,8 @@ uintptr_t WINAPI mainthread(HMODULE hModule) {
 
     FILE* f;
     freopen_s(&f, "CONOUT$", "w", stdout);
-
     std::cout << "[INFO] Console allocated succesfully" << std::endl;
+
     return 0;
 }
 

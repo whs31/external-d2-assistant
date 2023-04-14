@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QObject>
+#define __signal void
 
 namespace Application {
     class Injector;
@@ -9,6 +10,7 @@ namespace Application {
 class Entry : public QObject
 {
     Q_OBJECT
+
     Application::Injector* injector;
 
     public:

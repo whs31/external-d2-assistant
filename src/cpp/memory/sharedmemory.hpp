@@ -20,5 +20,5 @@ namespace Memory {
         bool writeToSharedMemory(const HANDLE& _handle, const char _dataToWrite[], const uint16_t _bufferSize = 8);
 
         std::unique_ptr<char[]> readFromSharedMemory(const HANDLE& _handle, uint16_t _bytesCount, const uint16_t _bufferSize = 8);
-    }
-}
+    } // namespace shared;
+} // namespace Memory;

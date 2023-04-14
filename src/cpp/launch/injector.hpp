@@ -38,4 +38,4 @@ namespace Application
             QString m_dll_path;
             unsigned long m_pid;
     };
-} /// namespace Application;
+} // namespace Application;

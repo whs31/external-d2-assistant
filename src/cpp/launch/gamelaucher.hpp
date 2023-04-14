@@ -29,4 +29,4 @@ namespace Application
                 //!        FALSE if game is already launched
                 __signal launchFinished(bool result);
     };
-} /// namespace Application;
+} // namespace Application;

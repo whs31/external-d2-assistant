@@ -2,6 +2,14 @@
 #include <iostream>
 #include "dota/managers/interfacemanager.h"
 
+#define DLL_EXPORT extern "C" __declspec(dllexport)
+
+DLL_EXPORT bool __stdcall attachTest()
+{
+    std::cout << "[DEBUG] Attach test called with sequence " << std::endl;
+    return true;
+}
+
 uintptr_t WINAPI mainthread(HMODULE hModule) {
     AllocConsole();
 
@@ -22,18 +30,19 @@ BOOL APIENTRY DllMain(HMODULE hModule,
                       LPVOID lpReserved
                       )
 {
-    switch (ul_reason_for_call)
+    switch(ul_reason_for_call)
     {
-    case DLL_PROCESS_ATTACH: {
-        HANDLE thread = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)mainthread, hModule, 0, 0);
-        if(thread)
-            CloseHandle(thread);
-        break;
+        case DLL_PROCESS_ATTACH: {
+            HANDLE thread = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)mainthread, hModule, 0, 0);
+            if(thread)
+                CloseHandle(thread);
+            break;
+        }
+        case DLL_THREAD_ATTACH:
+        case DLL_THREAD_DETACH:
+        case DLL_PROCESS_DETACH:
+            break;
     }
-    case DLL_THREAD_ATTACH:
-    case DLL_THREAD_DETACH:
-    case DLL_PROCESS_DETACH:
-        break;
-    }
-    return TRUE;
+
+    return 1;
 }

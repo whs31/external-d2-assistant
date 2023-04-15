@@ -49,5 +49,6 @@ void Injector::injectL()
     WaitForSingleObject(h_LoadThread, INFINITE);
     VirtualFreeEx(_handle, p_dll, strlen(_path) + 1 + 1, MEM_RELEASE);
     qInfo().noquote() << "[INJECTOR] Injected dll into" << _pid << ":" << _handle << "with load thread handle" << h_LoadThread;
+    emit injectionFinished(true);
 }
 

@@ -127,3 +127,54 @@ string Memory::registry::getGamePath()
 
     return matches[1].str();
 }
+
+WINBOOL Memory::remoteFunction(HANDLE hProcess, LPCSTR lpModuleName, LPCSTR lpProcName, LPVOID lpParameters, SIZE_T dwParamSize, PVOID *ppReturn)
+{
+    LPVOID lpRemoteParams = NULL;
+
+    HMODULE hModule = NULL;
+    LPVOID lpFunctionAddress = (PVOID)GetProcAddress(GetModuleHandleA(lpModuleName), lpProcName);
+
+    if(not lpFunctionAddress)
+    {
+        if(lpRemoteParams)
+            VirtualFreeEx(hProcess, lpRemoteParams, dwParamSize, MEM_RELEASE);
+        return FALSE;
+    }
+
+    if(lpParameters)
+    {
+        lpRemoteParams = VirtualAllocEx( hProcess, NULL, dwParamSize, MEM_RESERVE|MEM_COMMIT, PAGE_EXECUTE_READWRITE );
+        if(not lpRemoteParams)
+            return FALSE;
+
+        SIZE_T dwBytesWritten = 0;
+        BOOL result = WriteProcessMemory( hProcess, lpRemoteParams, lpParameters, dwParamSize, &dwBytesWritten);
+
+        if(not result or dwBytesWritten < 1)
+        {
+            if(lpRemoteParams)
+                VirtualFreeEx(hProcess, lpRemoteParams, dwParamSize, MEM_RELEASE);
+            return FALSE;
+        }
+    }
+
+    HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)lpFunctionAddress, lpRemoteParams, NULL, NULL);
+    if(not hThread)
+    {
+        if(lpRemoteParams)
+            VirtualFreeEx(hProcess, lpRemoteParams, dwParamSize, MEM_RELEASE);
+        return FALSE;
+    }
+
+    DWORD dwOut = 0;
+    while(GetExitCodeThread(hThread, &dwOut)) {
+        if(dwOut != STILL_ACTIVE)
+        {
+            *ppReturn = (PVOID)dwOut;
+            break;
+        }
+    }
+
+    return TRUE;
+}

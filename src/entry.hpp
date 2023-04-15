@@ -16,6 +16,6 @@ class Entry : public QObject
     public:
         explicit Entry(QObject *parent = nullptr);
 
-        signals:
-
+        public slots:
+            void injected(bool result);
 };

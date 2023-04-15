@@ -4,6 +4,9 @@
 #include "memory/memorytools.hpp"
 
 #include <QCoreApplication>
+#include <QThread>
+#include <QDebug>
+#include <QTimer>
 
 Entry::Entry(QObject *parent)
     : QObject{parent}
@@ -17,5 +20,25 @@ Entry::Entry(QObject *parent)
     });
 
     launcher.launch();
+
+    connect(injector, &Application::Injector::injectionFinished, this, &Entry::injected);
+}
+
+void Entry::injected(bool result)
+{
+    QTimer::singleShot(1000, [this](){
+        /// не работает, возвращает false
+        const char* log_test = "sdihfbasuihdfbhjasdbfhj";
+        PVOID lpReturn = NULL;
+        qCritical() << "Try";
+        /// не работает, не находит ModuleHandle
+        bool ret = Memory::remoteFunction(Memory::base::processHandle, "libinternal.dll", "attachTest", (LPVOID)log_test, sizeof(log_test), &lpReturn);
+        qDebug() << ret;
+
+        ///  не работает, сегфолт
+//            auto hLib = GetModuleHandleA("libinternal.dll");
+//            auto fn = GetProcAddress(hLib, "attachTest");
+//            ((bool(__stdcall*)(void))fn)();
+    });
 }
 

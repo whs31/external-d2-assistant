@@ -62,6 +62,9 @@ namespace Memory {
         return WriteProcessMemory(base::processHandle, (LPVOID)address, &value, sizeof(T), NULL);
     }
 
+    //! @todo
+    BOOL remoteFunction(HANDLE hProcess, LPCSTR lpModuleName, LPCSTR lpProcName, LPVOID lpParameters, SIZE_T dwParamSize, PVOID *ppReturn);
+
     //! @namespace registry - subnamespace for functions, working with
     //!            Windows registry.
     namespace registry

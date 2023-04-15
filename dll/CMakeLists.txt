@@ -11,6 +11,8 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 include_directories(src lib)
 
+
+
 file(GLOB CPP_SOURCES
     src/*
     src/dota/managers/*
@@ -22,11 +24,14 @@ file(GLOB CPP_SOURCES
 
     lib/minhook/include/*
     lib/minhook/src/*
+    src/Networking/*
 )
 
 add_library(internal SHARED
     ${CPP_SOURCES}
 )
+
+target_link_libraries(${PROJECT_NAME} PRIVATE ws2_32)
 
 message(".dll compiled successfully")
 

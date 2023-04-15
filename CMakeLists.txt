@@ -22,6 +22,7 @@ file(GLOB_RECURSE CPP_SOURCES
 set(PROJECT_SOURCES
     main.cpp
     src/entry.hpp    src/entry.cpp
+    src/cpp/staticconfig.h
 
     src/qml/qml.qrc
     resources/resources.qrc

@@ -1,4 +1,5 @@
 #include "injector.hpp"
+#include "staticconfig.h"
 
 #include <QDebug>
 #include <QTimer>
@@ -22,6 +23,12 @@ void Injector::inject(const QString &dll_path, unsigned long pid, uint64_t time_
 
 void Injector::injectL()
 {
+    if(not Config::INJECT_ON_STARTUP)
+    {
+        emit injectionFinished(true);
+        return;
+    }
+
     Memory::linkToProcess("dota2.exe");
     QString path_in_windows_encoding = m_dll_path;
     path_in_windows_encoding.replace("/", "\\");
@@ -35,8 +42,8 @@ void Injector::injectL()
     }
     else
     {
-        DWORD _pid = m_pid;
-        HANDLE _handle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, _pid);
+        _pid = m_pid;
+        _handle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, _pid);
     }
     // temp solution
     _pid = Memory::base::processID;

@@ -1,5 +1,6 @@
 #include "gamelaucher.hpp"
 #include "memory/memorytools.hpp"
+#include "staticconfig.h"
 #include <string>
 #include <QString>
 #include <QDebug>
@@ -36,7 +37,8 @@ void GameLauncher::launch()
 
     if(not is_dota_launched)
     {
-        QProcess::startDetached(Memory::base::dotaExecutable, { "-console", "-novid" });
+        if(Config::LAUNCH_GAME_ON_STARTUP)
+            QProcess::startDetached(Memory::base::dotaExecutable, { "-console", "-novid" });
         qInfo().noquote() << "[GAMELAUNCHER] Dota 2 launched from absolute path. Passing call stack to injector.";
         emit launchFinished(true);
         return;

@@ -1,13 +1,16 @@
-#ifndef PROTOCOLSTRUCTURE_H
-#define PROTOCOLSTRUCTURE_H
+#ifndef PROTOCOLSTRUCTURE_HPP
+#define PROTOCOLSTRUCTURE_HPP
 #include <cstdint>
 
-template<typename T>
-struct __attribute__((packed)) DatagramStructure{
+struct __attribute__((packed)) DatagramHeader{
     uint8_t messageType = 0;
     uint16_t messageId = 0;
     uint32_t messageSize = 0;
-    T data;
 };
 
-#endif // PROTOCOLSTRUCTURE_H
+struct __attribute__((packed)) DatagramData{
+    uint32_t dataSize = 0;
+    char * data = nullptr;
+};
+
+#endif // PROTOCOLSTRUCTURE_HPP

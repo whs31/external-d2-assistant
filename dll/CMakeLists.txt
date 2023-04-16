@@ -14,6 +14,7 @@ include_directories(src lib)
 
 
 file(GLOB CPP_SOURCES
+    src/networking/*
     src/*
     src/dota/managers/*
     src/dota/entity/*
@@ -24,7 +25,6 @@ file(GLOB CPP_SOURCES
 
     lib/minhook/include/*
     lib/minhook/src/*
-    src/Networking/*
 )
 
 add_library(internal SHARED
